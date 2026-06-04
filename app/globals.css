@@ -1,26 +1,224 @@
-@import "tailwindcss";
+/* ============================================================
+   roadtripsa — design tokens
+   Clean, conversion-focused travel affiliate site.
+   Warm/adventurous palette on a trustworthy SaaS layout.
+   ============================================================ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* -- Brand palette -- */
+  --accent:        #e2622f;   /* terracotta — primary CTA */
+  --accent-press:  #c8521f;
+  --accent-soft:   #fbe7d8;   /* tinted bg */
+  --gold:          #f2b705;   /* secondary highlight, sparing */
+  --ink:           #1c2a28;   /* near-black, warm */
+  --deep:          #163230;   /* deep forest-teal, dark sections */
+  --deep-2:        #0f2422;
+
+  /* -- Neutrals (warm) -- */
+  --bg:            #fbf8f3;   /* page background */
+  --surface:       #ffffff;
+  --surface-2:     #f4efe7;
+  --line:          #e7e0d4;
+  --line-strong:   #d8cfbf;
+  --muted:         #6b6a63;
+  --muted-2:       #8d8b82;
+
+  /* -- Type (mapped to next/font in layout.tsx) -- */
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-body:    var(--font-manrope), system-ui, sans-serif;
+
+  /* -- Spacing / density scale -- */
+  --density: 1;
+  --space-1: calc(4px  * var(--density));
+  --space-2: calc(8px  * var(--density));
+  --space-3: calc(12px * var(--density));
+  --space-4: calc(16px * var(--density));
+  --space-5: calc(24px * var(--density));
+  --space-6: calc(32px * var(--density));
+  --space-7: calc(48px * var(--density));
+  --space-8: calc(72px * var(--density));
+  --space-9: calc(112px * var(--density));
+
+  /* -- Radii -- */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* -- Shadows (soft, warm-tinted) -- */
+  --sh-sm: 0 1px 2px rgba(28, 42, 40, .06), 0 1px 3px rgba(28, 42, 40, .04);
+  --sh-md: 0 6px 16px rgba(28, 42, 40, .08), 0 2px 6px rgba(28, 42, 40, .05);
+  --sh-lg: 0 18px 48px rgba(28, 42, 40, .14), 0 6px 16px rgba(28, 42, 40, .07);
+  --sh-cta: 0 8px 22px rgba(226, 98, 47, .30);
+
+  --maxw: 1200px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { box-sizing: border-box; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html, body { margin: 0; padding: 0; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+img { display: block; max-width: 100%; }
+
+/* ---- Shared layout helpers ---- */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow.on-dark { color: var(--gold); }
+
+.section-title {
+  font-size: clamp(28px, 3.4vw, 44px);
+  letter-spacing: -0.03em;
+}
+
+.lead { font-size: 18px; color: var(--muted); line-height: 1.6; }
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  border: 0; border-radius: var(--r-pill);
+  padding: 13px 22px;
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--sh-cta); }
+.btn-primary:hover { background: var(--accent-press); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line-strong); }
+.btn-ghost:hover { border-color: var(--ink); background: rgba(0,0,0,.02); }
+.btn-dark { background: var(--ink); color: #fff; }
+.btn-dark:hover { background: #000; }
+.btn-light { background: #fff; color: var(--ink); box-shadow: var(--sh-sm); }
+.btn-light:hover { box-shadow: var(--sh-md); }
+.btn-lg { padding: 16px 28px; font-size: 16px; }
+.btn-sm { padding: 9px 16px; font-size: 13.5px; }
+.btn-block { width: 100%; }
+
+/* ---- Pills / chips ---- */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600;
+  padding: 6px 12px; border-radius: var(--r-pill);
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--line);
+}
+.chip.solid { background: var(--accent-soft); color: var(--accent-press); border-color: transparent; }
+
+/* ---- Striped image placeholders ---- */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-2);
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(22,50,48,.05) 0 10px,
+      rgba(22,50,48,.00) 10px 22px);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+}
+.ph::after {
+  content: attr(data-label);
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  background: rgba(255,255,255,.78);
+  padding: 5px 9px;
+  border-radius: 6px;
+  box-shadow: var(--sh-sm);
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.3;
+}
+.ph.on-dark {
+  background-color: rgba(255,255,255,.06);
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,.06) 0 10px,
+      rgba(255,255,255,.00) 10px 22px);
+  border-color: rgba(255,255,255,.14);
+}
+.ph.on-dark::after { background: rgba(0,0,0,.35); color: rgba(255,255,255,.85); box-shadow: none; }
+
+/* ---- Affiliate disclosure inline badge ---- */
+.aff-note {
+  font-size: 12px; color: var(--muted-2);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+/* ---- Cards baseline ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .22s ease, border-color .2s ease;
+}
+
+/* ---- Footer link hover ---- */
+.footer-link { color: rgba(255,255,255,.74); transition: color .15s ease; }
+.footer-link:hover { color: #fff; }
+
+/* ---- Scrollbar polish ---- */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+
+/* ---- Responsive collapses ---- */
+.nav-mobile-btn { display: none; }
+@media (max-width: 920px) {
+  .nav-desktop { display: none !important; }
+  .nav-mobile-btn { display: grid !important; }
+  .dest-grid, .dest-grid-3, .car-grid, .why-grid, .guides-grid, .tools-grid, .loc-grid, .steps-grid,
+  .things-grid, .news-grid, .dest-layout, .guide-layout, .about-layout, .contact-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .dest-grid > * { grid-column: auto !important; }
+  .toc-rail { display: none !important; }
+  .search-fields { flex-direction: column !important; }
+  .search-fields > * { width: 100% !important; }
+  .search-go { margin: 6px !important; padding: 14px !important; justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (min-width: 921px) and (max-width: 1180px) {
+  .car-grid, .why-grid, .tools-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .dest-grid, .dest-grid-3, .guides-grid, .loc-grid, .steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
