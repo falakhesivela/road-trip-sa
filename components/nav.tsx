@@ -5,26 +5,27 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Icon, type IconName } from "./icons";
 import { Logo } from "./ui";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES, destinationHref } from "@/lib/routes";
+import { AFFILIATE_LIVE, TOOLS_LIVE } from "@/lib/config";
 
-const DEST_LINKS: [string, string][] = [
-  ["Kruger National Park", "Big Five safari country"],
-  ["Garden Route", "Coastal road-trip classic"],
-  ["Cape Town & Winelands", "City, mountain & vineyards"],
-  ["Joburg Getaways", "Weekend escapes near GP"],
-  ["Durban & KZN", "Warm-water beaches"],
-  ["Panorama Route", "Mpumalanga viewpoints"],
-  ["Mozambique", "Indian-Ocean islands"],
-  ["Victoria Falls", "Zimbabwe & the Zambezi"],
+const DEST_LINKS: [string, string, string][] = [
+  ["Kruger National Park", "Big Five safari country", destinationHref("kruger")],
+  ["Garden Route", "Coastal road-trip classic", destinationHref("garden-route")],
+  ["Cape Town & Winelands", "City, mountain & vineyards", destinationHref("cape-town")],
+  ["Joburg Getaways", "Weekend escapes near GP", destinationHref("joburg-getaways")],
+  ["Durban & KZN", "Warm-water beaches", destinationHref("durban-kzn")],
+  ["Panorama Route", "Mpumalanga viewpoints", destinationHref("panorama-route")],
+  ["Mozambique", "Indian-Ocean islands", destinationHref("mozambique")],
+  ["Victoria Falls", "Zimbabwe & the Zambezi", destinationHref("victoria-falls")],
 ];
 
-const CAR_LINKS: [string, string][] = [
-  ["OR Tambo Airport", "Johannesburg pickups"],
-  ["Cape Town Airport", "Mother City hire"],
-  ["Kruger / Nelspruit", "Safari gateway"],
-  ["Garden Route", "One-way friendly"],
-  ["One-Way Rentals", "Drop where you like"],
-  ["4x4 & Safari", "Bush-ready vehicles"],
+const CAR_LINKS: [string, string, string][] = [
+  ["OR Tambo Airport", "Johannesburg pickups", ROUTES.cars],
+  ["Cape Town Airport", "Mother City hire", ROUTES.cars],
+  ["Kruger / Nelspruit", "Safari gateway", ROUTES.cars],
+  ["Garden Route", "One-way friendly", ROUTES.cars],
+  ["One-Way Rentals", "Drop where you like", ROUTES.cars],
+  ["4x4 & Safari", "Bush-ready vehicles", ROUTES.cars],
 ];
 
 function MegaItem({
@@ -205,19 +206,21 @@ export function Nav() {
             </div>
 
             <NavLink href={ROUTES.guides} label="Travel Guides" active={isActive(ROUTES.guides)} />
-            <NavLink href={ROUTES.resources} label="Resources" active={isActive(ROUTES.resources)} />
+            {TOOLS_LIVE && <NavLink href={ROUTES.resources} label="Resources" active={isActive(ROUTES.resources)} />}
             <NavLink href={ROUTES.about} label="About" active={isActive(ROUTES.about)} />
           </nav>
 
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
-            <Link
-              className="nav-desktop"
-              href={ROUTES.home}
-              aria-label="Search"
-              style={{ background: "none", border: 0, color: "var(--ink)", display: "grid", placeItems: "center", padding: 6 }}
-            >
-              <Icon name="search" size={20} />
-            </Link>
+            {AFFILIATE_LIVE && (
+              <Link
+                className="nav-desktop"
+                href={ROUTES.home}
+                aria-label="Search"
+                style={{ background: "none", border: 0, color: "var(--ink)", display: "grid", placeItems: "center", padding: 6 }}
+              >
+                <Icon name="search" size={20} />
+              </Link>
+            )}
             <Link className="btn btn-primary btn-sm nav-desktop" href={ROUTES.cars}>
               Find a car
             </Link>
@@ -250,13 +253,13 @@ export function Nav() {
                   maxWidth: 980,
                 }}
               >
-                {(open === "dest" ? DEST_LINKS : CAR_LINKS).map(([t, sub]) => (
+                {(open === "dest" ? DEST_LINKS : CAR_LINKS).map(([t, sub, href]) => (
                   <MegaItem
                     key={t}
                     title={t}
                     sub={sub}
                     icon={open === "dest" ? "pin" : "car"}
-                    href={open === "dest" ? ROUTES.kruger : ROUTES.cars}
+                    href={href}
                     onNavigate={closeMenus}
                   />
                 ))}
@@ -306,10 +309,10 @@ export function Nav() {
                 ["Destinations", ROUTES.destinations],
                 ["Car Rentals", ROUTES.cars],
                 ["Travel Guides", ROUTES.guides],
-                ["Resources", ROUTES.resources],
+                ...(TOOLS_LIVE ? [["Resources", ROUTES.resources]] : []),
                 ["About", ROUTES.about],
                 ["Contact", ROUTES.contact],
-              ] as const
+              ] as [string, string][]
             ).map(([l, p]) => (
               <Link
                 key={p}

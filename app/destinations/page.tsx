@@ -1,17 +1,13 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/ui";
-import { DestinationCard, type Destination } from "@/components/cards";
+import { DestinationCard } from "@/components/cards";
+import { destinationCards } from "@/lib/content";
 
-const ALL_DESTS: Destination[] = [
-  { name: "Kruger National Park", region: "Mpumalanga & Limpopo", tag: "Safari", price: "R1,950", label: "safari sunset" },
-  { name: "Cape Town & Winelands", region: "Western Cape", tag: "City + Wine", price: "R820", label: "table mountain" },
-  { name: "Garden Route", region: "Western & Eastern Cape", tag: "Road trip", price: "R1,200", label: "coastal cliffs" },
-  { name: "Panorama Route", region: "Mpumalanga", tag: "Scenery", price: "R740", label: "blyde canyon" },
-  { name: "Durban & KZN", region: "KwaZulu-Natal", tag: "Beaches", price: "R690", label: "golden mile" },
-  { name: "Joburg Getaways", region: "Gauteng", tag: "Weekend", price: "R450", label: "magaliesberg" },
-  { name: "Mozambique", region: "Tofo & Bazaruto", tag: "Islands", price: "R3,100", label: "indian ocean dhow" },
-  { name: "Botswana", region: "Okavango & Chobe", tag: "Wilderness", price: "R4,200", label: "okavango delta" },
-  { name: "Victoria Falls", region: "Zimbabwe", tag: "Adventure", price: "R2,400", label: "the falls" },
-];
+export const metadata: Metadata = {
+  title: "Destinations — Southern Africa Travel Guides | roadtripsa",
+  description:
+    "Big-Five safaris, coastal road trips, island escapes and weekend getaways across Southern Africa — all road-tested, all with honest costs.",
+};
 
 export default function DestinationsPage() {
   return (
@@ -23,8 +19,8 @@ export default function DestinationsPage() {
       />
       <section className="wrap-wide" style={{ padding: "var(--space-7) 24px var(--space-8)" }}>
         <div className="dest-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {ALL_DESTS.map((d) => (
-            <DestinationCard key={d.name} {...d} />
+          {destinationCards().map((d) => (
+            <DestinationCard key={d.slug} {...d} />
           ))}
         </div>
       </section>

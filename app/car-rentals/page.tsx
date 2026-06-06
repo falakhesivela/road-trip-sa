@@ -3,14 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
-import { AffNote } from "@/components/ui";
+import { AffNote, Placeholder } from "@/components/ui";
 import { SearchWidget } from "@/components/search-widget";
 import { CarCard, type Car } from "@/components/cards";
 import { ROUTES } from "@/lib/routes";
+import { AFFILIATE_LIVE } from "@/lib/config";
 
 const ALL_CARS: Car[] = [
-  { cls: "Economy", model: "VW Polo Vivo", seats: 5, bags: 2, trans: "Manual", price: "R385", oldPrice: "R460", badge: "Best value", supplier: "FirstCar" },
-  { cls: "Economy", model: "Kia Picanto", seats: 4, bags: 1, trans: "Manual", price: "R349", oldPrice: null, badge: "Cheapest", supplier: "Europcar" },
+  { cls: "Economy", model: "VW Polo Vivo", seats: 5, bags: 2, trans: "Manual", price: "R385", oldPrice: null, badge: null, supplier: "FirstCar" },
+  { cls: "Economy", model: "Kia Picanto", seats: 4, bags: 1, trans: "Manual", price: "R349", oldPrice: null, badge: null, supplier: "Europcar" },
   { cls: "Compact", model: "Hyundai i20", seats: 5, bags: 2, trans: "Auto", price: "R520", oldPrice: "R590", badge: null, supplier: "Europcar" },
   { cls: "Compact", model: "VW Polo", seats: 5, bags: 2, trans: "Auto", price: "R560", oldPrice: null, badge: null, supplier: "Avis" },
   { cls: "SUV", model: "Toyota Fortuner", seats: 7, bags: 3, trans: "Auto", price: "R1,150", oldPrice: null, badge: "Safari-ready", supplier: "Avis" },
@@ -41,7 +42,7 @@ const FAQ: [string, string][] = [
   ],
   [
     "Is one-way car rental available?",
-    "Yes. One-way hire — for example pick up in Cape Town and drop on the Garden Route or in Joburg — is widely available. A one-way fee may apply depending on distance. Use the 'Drop-off' field in the search to see one-way rates.",
+    "Yes. One-way hire — for example pick up in Cape Town and drop on the Garden Route or in Joburg — is widely available. A one-way fee may apply depending on distance, so confirm it with the supplier when you book.",
   ],
   [
     "What about a 4x4 for a self-drive safari?",
@@ -49,7 +50,7 @@ const FAQ: [string, string][] = [
   ],
   [
     "Are there hidden fees?",
-    "We never add a booking fee. The price you see is the partner's rate; at their checkout you'll see local taxes, optional insurance and the refundable deposit clearly itemised before you pay.",
+    "Reputable suppliers itemise local taxes, optional insurance and the refundable deposit clearly before you pay — and roadtripsa will never add a booking fee of its own on top.",
   ],
 ];
 
@@ -104,9 +105,10 @@ export default function CarRentalsPage() {
     <main>
       {/* Hero */}
       <section style={{ background: "var(--deep)", position: "relative", overflow: "hidden" }}>
-        <div
-          className="ph on-dark"
-          data-label="hero · open road, escarpment"
+        <Placeholder
+          label="hero · open road, escarpment"
+          dark
+          priority
           style={{ position: "absolute", inset: 0, height: "100%", border: 0, borderRadius: 0 }}
         />
         <div
@@ -138,16 +140,19 @@ export default function CarRentalsPage() {
               Car rental · South Africa
             </div>
             <h1 style={{ color: "#fff", fontSize: "clamp(34px,4.6vw,58px)", letterSpacing: "-0.035em", lineHeight: 1 }}>
-              Compare every car-hire brand in one search
+              {AFFILIATE_LIVE ? "Compare every car-hire brand in one search" : "Car hire in South Africa: the honest guide"}
             </h1>
             <p style={{ color: "rgba(255,255,255,.82)", fontSize: "clamp(16px,1.5vw,19px)", marginTop: 18, maxWidth: 560 }}>
-              From a R349 city runabout to a fully-kitted safari 4x4 — transparent prices, free cancellation on most
-              rates, zero booking fees.
+              {AFFILIATE_LIVE
+                ? "From a R349 city runabout to a fully-kitted safari 4x4 — transparent prices, free cancellation on most rates, zero booking fees."
+                : "From a city runabout to a fully-kitted safari 4x4 — which class to choose, where to pick up, and how to avoid the common pitfalls."}
             </p>
           </div>
-          <div style={{ marginTop: 34, maxWidth: 1040 }}>
-            <SearchWidget defaultTab="cars" />
-          </div>
+          {AFFILIATE_LIVE ? (
+            <div style={{ marginTop: 34, maxWidth: 1040 }}>
+              <SearchWidget defaultTab="cars" />
+            </div>
+          ) : null}
           <div style={{ height: 40 }} />
         </div>
       </section>
@@ -165,12 +170,11 @@ export default function CarRentalsPage() {
           </div>
         </div>
         <div className="loc-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {LOCATIONS.map(([name, region, price]) => (
-            <Link
+          {LOCATIONS.map(([name, region]) => (
+            <div
               key={name}
-              href={ROUTES.cars}
               className="card"
-              style={{ width: "100%", textAlign: "left", padding: 20, display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }}
+              style={{ width: "100%", textAlign: "left", padding: 20, display: "flex", alignItems: "center", gap: 16 }}
             >
               <span
                 style={{
@@ -188,12 +192,9 @@ export default function CarRentalsPage() {
               </span>
               <span style={{ flex: 1 }}>
                 <span style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16.5 }}>{name}</span>
-                <span style={{ display: "block", fontSize: 13, color: "var(--muted)" }}>
-                  {region} · {price}
-                </span>
+                <span style={{ display: "block", fontSize: 13, color: "var(--muted)" }}>{region}</span>
               </span>
-              <Icon name="arrow" size={18} style={{ color: "var(--accent)" }} />
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -203,10 +204,10 @@ export default function CarRentalsPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 22, flexWrap: "wrap", gap: 16 }}>
           <div>
             <div className="eyebrow" style={{ marginBottom: 10 }}>
-              Live deals
+              {AFFILIATE_LIVE ? "Live deals" : "By vehicle class"}
             </div>
             <h2 className="section-title" style={{ fontSize: "clamp(24px,3vw,36px)" }}>
-              This week&apos;s best rates
+              {AFFILIATE_LIVE ? "This week's best rates" : "Cars you can hire"}
             </h2>
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -236,12 +237,15 @@ export default function CarRentalsPage() {
             <CarCard key={c.model} {...c} />
           ))}
         </div>
-        <div style={{ marginTop: 20, textAlign: "center" }}>
-          <AffNote>Prices illustrative. Final rate confirmed at our partner&apos;s secure checkout.</AffNote>
-        </div>
+        {AFFILIATE_LIVE && (
+          <div style={{ marginTop: 20, textAlign: "center" }}>
+            <AffNote>Prices illustrative. Final rate confirmed at our partner&apos;s secure checkout.</AffNote>
+          </div>
+        )}
       </section>
 
-      {/* How it works */}
+      {/* How it works — describes the live compare/book flow, shown only once affiliate booking is live */}
+      {AFFILIATE_LIVE && (
       <section style={{ background: "var(--surface-2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
         <div className="wrap-wide" style={{ padding: "var(--space-8) 24px" }}>
           <div className="eyebrow" style={{ marginBottom: 12 }}>
@@ -269,6 +273,7 @@ export default function CarRentalsPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* FAQ */}
       <section className="wrap" style={{ padding: "var(--space-8) 24px", maxWidth: 860 }}>

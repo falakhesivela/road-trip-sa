@@ -36,26 +36,6 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-        <div className="why-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginTop: 56 }}>
-          {(
-            [
-              ["120+", "Guides published"],
-              ["6 yrs", "On the road"],
-              ["40k+", "Monthly readers"],
-              ["100%", "Independent"],
-            ] as const
-          ).map(([b, l]) => (
-            <div
-              key={l}
-              style={{ textAlign: "center", padding: 24, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14 }}
-            >
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 32, color: "var(--accent)", letterSpacing: "-0.03em" }}>
-                {b}
-              </div>
-              <div style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 4 }}>{l}</div>
-            </div>
-          ))}
-        </div>
       </section>
     </main>
   );

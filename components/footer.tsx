@@ -1,7 +1,26 @@
 import Link from "next/link";
 import { Icon, type IconName } from "./icons";
 import { Logo } from "./ui";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES, destinationHref, guideHref } from "@/lib/routes";
+import { TOOLS_LIVE, NEWSLETTER_LIVE } from "@/lib/config";
+import { FooterSubscribe } from "./newsletter";
+
+// While the free tools aren't built, the "Plan" column points at real content
+// instead of dead calculator/checklist links.
+const PLAN_LINKS: [string, string][] = TOOLS_LIVE
+  ? [
+      ["Travel Guides", ROUTES.guides],
+      ["Free Tools", ROUTES.resources],
+      ["Budget Calculator", ROUTES.budgetCalculator],
+      ["Car Cost Calculator", ROUTES.carCostCalculator],
+      ["Packing List", ROUTES.packingList],
+    ]
+  : [
+      ["All Travel Guides", ROUTES.guides],
+      ["Kruger Safari Guide", guideHref("kruger-safari-guide")],
+      ["Garden Route Itinerary", guideHref("garden-route-7-day-itinerary")],
+      ["Car Hire Guide", ROUTES.cars],
+    ];
 
 const COLS: [string, [string, string][]][] = [
   [
@@ -9,9 +28,9 @@ const COLS: [string, [string, string][]][] = [
     [
       ["Destinations", ROUTES.destinations],
       ["Kruger National Park", ROUTES.kruger],
-      ["Garden Route", ROUTES.destinations],
-      ["Cape Town", ROUTES.destinations],
-      ["Mozambique", ROUTES.destinations],
+      ["Garden Route", destinationHref("garden-route")],
+      ["Cape Town", destinationHref("cape-town")],
+      ["Mozambique", destinationHref("mozambique")],
     ],
   ],
   [
@@ -24,24 +43,15 @@ const COLS: [string, [string, string][]][] = [
       ["4x4 & Safari", ROUTES.cars],
     ],
   ],
-  [
-    "Plan",
-    [
-      ["Travel Guides", ROUTES.guides],
-      ["Resources & Tools", ROUTES.resources],
-      ["Budget Calculator", ROUTES.resources],
-      ["Packing Lists", ROUTES.resources],
-      ["Visa Checker", ROUTES.resources],
-    ],
-  ],
+  ["Plan", PLAN_LINKS],
   [
     "Company",
     [
       ["About", ROUTES.about],
       ["Contact", ROUTES.contact],
-      ["Affiliate Disclosure", ROUTES.about],
-      ["Privacy (POPIA)", ROUTES.about],
-      ["Terms of Use", ROUTES.about],
+      ["Affiliate Disclosure", ROUTES.affiliate],
+      ["Privacy (POPIA)", ROUTES.privacy],
+      ["Terms of Use", ROUTES.terms],
     ],
   ],
 ];
@@ -78,6 +88,11 @@ export function Footer() {
                 </span>
               ))}
             </div>
+            {NEWSLETTER_LIVE && (
+              <div style={{ marginTop: 28 }}>
+                <FooterSubscribe />
+              </div>
+            )}
           </div>
           {COLS.map(([title, links]) => (
             <div key={title}>

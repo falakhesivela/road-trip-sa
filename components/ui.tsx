@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { Icon } from "./icons";
 
@@ -41,19 +42,32 @@ export function Placeholder({
   style = {},
   dark = false,
   radius,
+  src,
+  priority = false,
+  sizes,
 }: {
   label: string;
   className?: string;
   style?: CSSProperties;
   dark?: boolean;
   radius?: number;
+  /** When set, a real optimized photo is shown; otherwise the striped placeholder. */
+  src?: string;
+  /** Use for above-the-fold hero images (improves LCP). */
+  priority?: boolean;
+  /** next/image `sizes` hint for responsive loading. */
+  sizes?: string;
 }) {
   return (
     <div
       className={`ph ${dark ? "on-dark" : ""} ${className}`}
       data-label={label}
-      style={{ borderRadius: radius != null ? radius : undefined, ...style }}
-    />
+      style={{ position: "relative", overflow: "hidden", borderRadius: radius != null ? radius : undefined, ...style }}
+    >
+      {src && (
+        <Image src={src} alt={label} fill priority={priority} sizes={sizes ?? "100vw"} style={{ objectFit: "cover" }} />
+      )}
+    </div>
   );
 }
 

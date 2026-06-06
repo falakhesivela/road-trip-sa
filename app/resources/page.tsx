@@ -1,15 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/icons";
 import { PageHero } from "@/components/ui";
 import { ROUTES } from "@/lib/routes";
 
-const TOOLS: [IconName, string, string][] = [
-  ["car", "Car Rental Cost Calculator", "Estimate your total hire cost incl. fuel, tolls and one-way fees."],
-  ["tag", "Travel Budget Calculator", "Build a full trip budget in rands — flights, stay, food and activities."],
-  ["pin", "Road-Trip Planner", "Map a multi-stop route with driving times and suggested overnight stops."],
-  ["check", "Packing List Generator", "Auto-build a packing list tuned to your destination and season."],
-  ["shield", "Safari Packing List", "The complete bush checklist — from binoculars to a power bank for load-shedding."],
-  ["globe", "Visa & Requirements Checker", "Entry, visa and vaccination requirements across Southern Africa."],
+export const metadata: Metadata = {
+  title: "Free Travel Tools — Budget & Packing Calculators | roadtripsa",
+  description:
+    "Free, no-login travel-planning tools for Southern Africa: a trip budget calculator, a car-rental cost calculator and a tailored packing list generator.",
+};
+
+const TOOLS: [IconName, string, string, string][] = [
+  ["tag", "Travel Budget Calculator", "Build a full trip budget in rands — accommodation, car hire, food and flights.", ROUTES.budgetCalculator],
+  ["car", "Car-Rental Cost Calculator", "See the true cost of car hire incl. fuel, insurance, one-way and cross-border fees.", ROUTES.carCostCalculator],
+  ["check", "Packing List Generator", "A tailored checklist by trip type and season — tick off and print as you pack.", ROUTES.packingList],
 ];
 
 export default function ResourcesPage() {
@@ -17,15 +21,15 @@ export default function ResourcesPage() {
     <main>
       <PageHero
         eyebrow="Free tools"
-        title="Plan the whole trip in one place"
-        sub="Free calculators, planners and checklists to turn 'someday' into a booked, budgeted trip."
+        title="Plan smarter, for free"
+        sub="No login, no catch — just quick, useful calculators and checklists to help you plan and budget your Southern-Africa trip."
       />
       <section className="wrap-wide" style={{ padding: "var(--space-7) 24px var(--space-8)" }}>
         <div className="tools-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {TOOLS.map(([ic, t, d]) => (
+          {TOOLS.map(([ic, t, d, href]) => (
             <Link
               key={t}
-              href={ROUTES.resources}
+              href={href}
               className="card"
               style={{ textAlign: "left", padding: 24, cursor: "pointer", height: "100%", display: "flex", flexDirection: "column" }}
             >

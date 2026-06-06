@@ -202,23 +202,64 @@ img { display: block; max-width: 100%; }
 ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 3px solid var(--bg); }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
 
-/* ---- Responsive collapses ---- */
+/* ============================================================
+   Responsive — tiered from large desktop down to small phones.
+   Grids thin out gradually; the desktop nav and side-by-side
+   content layouts collapse once they'd get too cramped.
+   ============================================================ */
 .nav-mobile-btn { display: none; }
+
+/* Small desktop / landscape tablet: thin the densest grids to 2-up */
+@media (max-width: 1180px) {
+  .car-grid, .why-grid, .tools-grid,
+  .dest-grid-3, .guides-grid, .loc-grid, .steps-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Below the desktop nav width: mobile nav, stacked sidebars + search */
 @media (max-width: 920px) {
   .nav-desktop { display: none !important; }
   .nav-mobile-btn { display: grid !important; }
-  .dest-grid, .dest-grid-3, .car-grid, .why-grid, .guides-grid, .tools-grid, .loc-grid, .steps-grid,
-  .things-grid, .news-grid, .dest-layout, .guide-layout, .about-layout, .contact-layout {
+
+  /* content + sidebar layouts stack */
+  .dest-layout, .guide-layout, .about-layout, .contact-layout, .news-grid, .tool-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .toc-rail { display: none !important; }
+
+  /* home destinations: 2-up, wide hero card spans the full row */
+  .dest-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .dest-grid > * { grid-column: 1 / -1 !important; }
+  .dest-grid > *:not(:first-child) { grid-column: auto !important; }
+
+  /* search widget stacks vertically */
+  .search-fields { flex-direction: column !important; }
+  .search-fields > * { width: 100% !important; }
+  .search-fields > .search-swap { width: 34px !important; margin: 2px auto !important; }
+  .search-divider { display: none !important; }
+  .search-go { margin: 6px !important; padding: 14px !important; justify-content: center; }
+
+  /* tighten the vertical rhythm a touch on smaller screens */
+  :root { --density: .92; }
+}
+
+/* Phones: everything single-column */
+@media (max-width: 640px) {
+  .dest-grid, .dest-grid-3, .car-grid, .why-grid, .guides-grid,
+  .tools-grid, .loc-grid, .steps-grid, .things-grid {
     grid-template-columns: 1fr !important;
   }
   .dest-grid > * { grid-column: auto !important; }
-  .toc-rail { display: none !important; }
-  .search-fields { flex-direction: column !important; }
-  .search-fields > * { width: 100% !important; }
-  .search-go { margin: 6px !important; padding: 14px !important; justify-content: center; }
+
+  /* footer: two short link columns, brand spans the top */
   .footer-grid { grid-template-columns: 1fr 1fr !important; }
+  .footer-grid > *:first-child { grid-column: 1 / -1; }
+
+  :root { --density: .82; }
 }
-@media (min-width: 921px) and (max-width: 1180px) {
-  .car-grid, .why-grid, .tools-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .dest-grid, .dest-grid-3, .guides-grid, .loc-grid, .steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+/* Narrow phones: single footer column */
+@media (max-width: 420px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
 }

@@ -1,30 +1,21 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import { Icon, type IconName } from "@/components/icons";
 import { PageHero } from "@/components/ui";
 
-const CONTACTS: [IconName, string, string][] = [
-  ["globe", "Email", "hello@roadtripsa.co.za"],
+export const metadata: Metadata = {
+  title: "Contact — roadtripsa",
+  description: "Get in touch with roadtripsa — trip questions, tips, and partnership enquiries.",
+};
+
+const EMAIL = "hello@roadtripsa.co.za";
+
+const CONTACTS: [IconName, string, string, string?][] = [
+  ["globe", "Email", EMAIL, `mailto:${EMAIL}`],
   ["pin", "Based in", "Johannesburg, South Africa"],
   ["users", "Social", "@roadtripsa"],
 ];
 
-const inputStyle = {
-  width: "100%",
-  marginTop: 6,
-  padding: "12px 14px",
-  border: "1px solid var(--line)",
-  borderRadius: 10,
-  fontFamily: "var(--font-body)",
-  fontSize: 15,
-  outline: "none",
-  background: "var(--bg)",
-} as const;
-
 export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-
   return (
     <main>
       <PageHero
@@ -34,102 +25,85 @@ export default function ContactPage() {
       />
       <section className="wrap-wide" style={{ padding: "var(--space-7) 24px var(--space-8)" }}>
         <div className="contact-layout" style={{ display: "grid", gridTemplateColumns: "1.2fr .8fr", gap: 48, alignItems: "start" }}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
-            style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 18, padding: 28 }}
-          >
-            {sent ? (
-              <div style={{ textAlign: "center", padding: "40px 20px" }}>
-                <span
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 999,
-                    background: "var(--accent-soft)",
-                    color: "var(--accent-press)",
-                    display: "grid",
-                    placeItems: "center",
-                    margin: "0 auto 16px",
-                  }}
-                >
-                  <Icon name="check" size={28} />
-                </span>
-                <h3 style={{ fontSize: 22 }}>Message sent!</h3>
-                <p style={{ color: "var(--muted)", marginTop: 8 }}>
-                  Thanks for reaching out — I&apos;ll reply within a day or two.
-                </p>
-              </div>
-            ) : (
-              <>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                  {["First name", "Last name"].map((l) => (
-                    <label key={l} style={{ display: "block" }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{l}</span>
-                      <input required style={inputStyle} />
-                    </label>
-                  ))}
-                </div>
-                <label style={{ display: "block", marginTop: 16 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700 }}>Email</span>
-                  <input type="email" required style={inputStyle} />
-                </label>
-                <label style={{ display: "block", marginTop: 16 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700 }}>Message</span>
-                  <textarea required rows={5} style={{ ...inputStyle, resize: "vertical" }} />
-                </label>
-                <button className="btn btn-primary btn-lg btn-block" style={{ marginTop: 20 }} type="submit">
-                  Send message
-                </button>
-              </>
-            )}
-          </form>
+          {/* Email CTA panel */}
+          <div style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 18, padding: 32 }}>
+            <span
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 14,
+                background: "var(--accent-soft)",
+                color: "var(--accent-press)",
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              <Icon name="globe" size={28} />
+            </span>
+            <h2 style={{ fontSize: 26, marginTop: 18 }}>Drop me an email</h2>
+            <p style={{ fontSize: 16, color: "var(--muted)", lineHeight: 1.7, marginTop: 10, maxWidth: 480 }}>
+              The fastest way to reach me is by email — whether it&apos;s a question about planning a trip, feedback on a
+              guide, or a partnership enquiry. I read every message and reply within a day or two.
+            </p>
+            <a className="btn btn-primary btn-lg" style={{ marginTop: 22 }} href={`mailto:${EMAIL}`}>
+              <Icon name="globe" size={18} /> Email {EMAIL}
+            </a>
+          </div>
+
+          {/* Contact details */}
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {CONTACTS.map(([ic, l, v]) => (
-              <div
-                key={l}
-                style={{
-                  display: "flex",
-                  gap: 14,
-                  alignItems: "center",
-                  background: "var(--surface)",
-                  border: "1px solid var(--line)",
-                  borderRadius: 14,
-                  padding: 18,
-                }}
-              >
-                <span
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 11,
-                    background: "var(--accent-soft)",
-                    color: "var(--accent-press)",
-                    display: "grid",
-                    placeItems: "center",
-                    flex: "none",
-                  }}
-                >
-                  <Icon name={ic} size={21} />
-                </span>
-                <div>
-                  <div
+            {CONTACTS.map(([ic, l, v, href]) => {
+              const inner = (
+                <>
+                  <span
                     style={{
-                      fontSize: 12.5,
-                      fontWeight: 700,
-                      letterSpacing: ".05em",
-                      textTransform: "uppercase",
-                      color: "var(--muted-2)",
+                      width: 44,
+                      height: 44,
+                      borderRadius: 11,
+                      background: "var(--accent-soft)",
+                      color: "var(--accent-press)",
+                      display: "grid",
+                      placeItems: "center",
+                      flex: "none",
                     }}
                   >
-                    {l}
+                    <Icon name={ic} size={21} />
+                  </span>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 12.5,
+                        fontWeight: 700,
+                        letterSpacing: ".05em",
+                        textTransform: "uppercase",
+                        color: "var(--muted-2)",
+                      }}
+                    >
+                      {l}
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 15.5 }}>{v}</div>
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 15.5 }}>{v}</div>
+                </>
+              );
+              const style = {
+                display: "flex",
+                gap: 14,
+                alignItems: "center",
+                background: "var(--surface)",
+                border: "1px solid var(--line)",
+                borderRadius: 14,
+                padding: 18,
+              } as const;
+              return href ? (
+                <a key={l} href={href} style={style}>
+                  {inner}
+                </a>
+              ) : (
+                <div key={l} style={style}>
+                  {inner}
                 </div>
-              </div>
-            ))}
+              );
+            })}
             <div style={{ background: "var(--deep)", color: "#fff", borderRadius: 14, padding: 22, marginTop: 4 }}>
               <div className="eyebrow on-dark" style={{ marginBottom: 8 }}>
                 Work with us

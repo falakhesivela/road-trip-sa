@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { Icon } from "./icons";
-import { Placeholder, Stars } from "./ui";
-import { ROUTES } from "@/lib/routes";
+import { Placeholder } from "./ui";
+import { destinationHref, guideHref } from "@/lib/routes";
 
 export type Destination = {
+  slug: string;
   name: string;
   region: string;
   tag?: string;
   price: string;
   label: string;
+  image?: string;
   wide?: boolean;
 };
 
-export function DestinationCard({ name, region, tag, price, label, wide = false }: Destination) {
+export function DestinationCard({ slug, name, region, tag, label, image, wide = false }: Destination) {
   return (
     <Link
-      href={ROUTES.kruger}
+      href={destinationHref(slug)}
       className="card dest-card"
       style={{
         padding: 0,
@@ -31,7 +33,7 @@ export function DestinationCard({ name, region, tag, price, label, wide = false 
       }}
     >
       <div style={{ position: "relative" }}>
-        <Placeholder label={label} style={{ height: wide ? 300 : 220, borderRadius: 0, border: 0 }} />
+        <Placeholder label={label} src={image} style={{ height: wide ? 300 : 220, borderRadius: 0, border: 0 }} />
         {tag && (
           <span
             style={{
@@ -54,24 +56,6 @@ export function DestinationCard({ name, region, tag, price, label, wide = false 
             <Icon name="pin" size={13} style={{ color: "var(--accent)" }} /> {tag}
           </span>
         )}
-        <span
-          style={{
-            position: "absolute",
-            top: 14,
-            right: 14,
-            width: 34,
-            height: 34,
-            borderRadius: 999,
-            background: "rgba(255,255,255,.92)",
-            display: "grid",
-            placeItems: "center",
-            color: "var(--ink)",
-            backdropFilter: "blur(6px)",
-            boxShadow: "var(--sh-sm)",
-          }}
-        >
-          <Icon name="heart" size={17} />
-        </span>
       </div>
       <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
@@ -85,7 +69,6 @@ export function DestinationCard({ name, region, tag, price, label, wide = false 
           >
             {name}
           </span>
-          <Stars value={5} size={13} />
         </div>
         <span style={{ fontSize: 13.5, color: "var(--muted)" }}>{region}</span>
         <div
@@ -94,12 +77,9 @@ export function DestinationCard({ name, region, tag, price, label, wide = false 
             paddingTop: 12,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
           }}
         >
-          <span style={{ fontSize: 13, color: "var(--muted-2)" }}>
-            From <strong style={{ color: "var(--ink)", fontSize: 16 }}>{price}</strong>
-          </span>
           <span
             style={{
               display: "inline-flex",
@@ -110,7 +90,7 @@ export function DestinationCard({ name, region, tag, price, label, wide = false 
               fontSize: 13.5,
             }}
           >
-            Explore <Icon name="arrow" size={15} />
+            Explore guide <Icon name="arrow" size={15} />
           </span>
         </div>
       </div>
@@ -128,9 +108,10 @@ export type Car = {
   oldPrice?: string | null;
   badge?: string | null;
   supplier: string;
+  image?: string;
 };
 
-export function CarCard({ cls, model, seats, bags, trans, price, oldPrice, badge, supplier }: Car) {
+export function CarCard({ cls, model, seats, bags, trans, badge, image }: Car) {
   return (
     <div className="card" style={{ display: "flex", flexDirection: "column", border: "1px solid var(--line)" }}>
       <div
@@ -147,11 +128,11 @@ export function CarCard({ cls, model, seats, bags, trans, price, oldPrice, badge
         </span>
         {badge && <span className="chip solid">{badge}</span>}
       </div>
-      <Placeholder label={`car · ${cls.toLowerCase()}`} style={{ height: 132, margin: "8px 16px 0", borderRadius: 12 }} />
+      <Placeholder label={`car · ${cls.toLowerCase()}`} src={image} style={{ height: 132, margin: "8px 16px 0", borderRadius: 12 }} />
       <div style={{ padding: "14px 18px 18px", display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
         <div>
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18 }}>{model}</div>
-          <div style={{ fontSize: 12.5, color: "var(--muted-2)" }}>or similar · {supplier}</div>
+          <div style={{ fontSize: 12.5, color: "var(--muted-2)" }}>or similar</div>
         </div>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           {(
@@ -176,46 +157,25 @@ export function CarCard({ cls, model, seats, bags, trans, price, oldPrice, badge
             </span>
           ))}
         </div>
-        <div
-          style={{
-            marginTop: "auto",
-            paddingTop: 12,
-            borderTop: "1px solid var(--line)",
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-          }}
-        >
-          <div>
-            {oldPrice && (
-              <div style={{ fontSize: 13, color: "var(--muted-2)", textDecoration: "line-through" }}>{oldPrice}</div>
-            )}
-            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, letterSpacing: "-0.02em" }}>
-              {price}
-              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--muted)" }}> /day</span>
-            </div>
-          </div>
-          <Link className="btn btn-primary btn-sm" href={ROUTES.cars}>
-            View deal
-          </Link>
-        </div>
       </div>
     </div>
   );
 }
 
 export type Guide = {
+  slug: string;
   cat: string;
   title: string;
   read: string;
   label: string;
+  image?: string;
   big?: boolean;
 };
 
-export function GuideCard({ cat, title, read, label, big = false }: Guide) {
+export function GuideCard({ slug, cat, title, read, label, image, big = false }: Guide) {
   return (
     <Link
-      href={ROUTES.guides}
+      href={guideHref(slug)}
       className="card"
       style={{
         padding: 0,
@@ -229,6 +189,7 @@ export function GuideCard({ cat, title, read, label, big = false }: Guide) {
     >
       <Placeholder
         label={label}
+        src={image}
         style={{
           height: big ? 200 : "auto",
           width: big ? "auto" : 150,

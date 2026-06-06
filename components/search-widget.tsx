@@ -62,7 +62,7 @@ function Field({
 }
 
 function Divider() {
-  return <span style={{ width: 1, alignSelf: "stretch", background: "var(--line)", margin: "8px 0" }} />;
+  return <span className="search-divider" style={{ width: 1, alignSelf: "stretch", background: "var(--line)", margin: "8px 0" }} />;
 }
 
 export function SearchWidget({ defaultTab = "flights" }: { defaultTab?: "flights" | "cars" }) {
@@ -200,6 +200,7 @@ export function SearchWidget({ defaultTab = "flights" }: { defaultTab?: "flights
             <button
               onClick={swap}
               aria-label="Swap"
+              className="search-swap"
               style={{
                 background: "var(--surface)",
                 border: "1px solid var(--line)",

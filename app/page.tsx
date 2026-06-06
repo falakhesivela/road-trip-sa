@@ -1,30 +1,28 @@
 import { Icon, type IconName } from "@/components/icons";
-import { Placeholder, SectionHead, AffNote } from "@/components/ui";
+import { Placeholder, SectionHead } from "@/components/ui";
 import { SearchWidget } from "@/components/search-widget";
 import { Newsletter } from "@/components/newsletter";
-import { DestinationCard, CarCard, GuideCard, type Destination, type Car, type Guide } from "@/components/cards";
+import { DestinationCard, CarCard, GuideCard, type Car } from "@/components/cards";
+import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
+import { destinationCards, guideCards } from "@/lib/content";
+import { AFFILIATE_LIVE, NEWSLETTER_LIVE } from "@/lib/config";
 
-const DESTS: Destination[] = [
-  { name: "Kruger National Park", region: "Mpumalanga & Limpopo", tag: "Safari", price: "R1,950", label: "hero · safari sunset", wide: true },
-  { name: "Cape Town", region: "Western Cape", tag: "City + Coast", price: "R820", label: "table mountain" },
-  { name: "Garden Route", region: "Western & Eastern Cape", tag: "Road trip", price: "R1,200", label: "coastal cliffs" },
-  { name: "Victoria Falls", region: "Zimbabwe", tag: "Adventure", price: "R2,400", label: "the falls" },
-  { name: "Durban & KZN", region: "KwaZulu-Natal", tag: "Beaches", price: "R690", label: "golden mile beach" },
-  { name: "Mozambique", region: "Tofo & Bazaruto", tag: "Islands", price: "R3,100", label: "indian ocean dhow" },
-];
+// Featured home destinations — curated subset of the full list, Kruger as the wide hero card.
+const HOME_DEST_SLUGS = ["kruger", "cape-town", "garden-route", "victoria-falls", "durban-kzn", "mozambique"];
+const DESTS = HOME_DEST_SLUGS.map((slug, i) => {
+  const card = destinationCards().find((d) => d.slug === slug)!;
+  return { ...card, wide: i === 0 };
+});
+
+// Latest three guides for the home blog teaser.
+const GUIDES = guideCards().slice(0, 3);
 
 const CARS: Car[] = [
-  { cls: "Economy", model: "VW Polo Vivo", seats: 5, bags: 2, trans: "Manual", price: "R385", oldPrice: "R460", badge: "Best value", supplier: "FirstCar" },
+  { cls: "Economy", model: "VW Polo Vivo", seats: 5, bags: 2, trans: "Manual", price: "R385", oldPrice: null, badge: null, supplier: "FirstCar" },
   { cls: "SUV", model: "Toyota Fortuner", seats: 7, bags: 3, trans: "Auto", price: "R1,150", oldPrice: null, badge: "Safari-ready", supplier: "Avis" },
   { cls: "Compact", model: "Hyundai i20", seats: 5, bags: 2, trans: "Auto", price: "R520", oldPrice: "R590", badge: null, supplier: "Europcar" },
   { cls: "4x4", model: "Ford Ranger 4x4", seats: 5, bags: 3, trans: "Manual", price: "R1,680", oldPrice: null, badge: "Bush-ready", supplier: "Bidvest" },
-];
-
-const GUIDES: Guide[] = [
-  { cat: "Safari", title: "The Complete Kruger Safari Guide 2026", read: "14 min read", label: "guide · safari jeep" },
-  { cat: "Road Trips", title: "Garden Route 7-Day Road-Trip Itinerary", read: "11 min read", label: "guide · coastal road" },
-  { cat: "Budget", title: "10 Best Budget Weekend Getaways from Joburg", read: "8 min read", label: "guide · weekend escape" },
 ];
 
 const WHY: [IconName, string, string][] = [
@@ -49,7 +47,7 @@ function Hero() {
   return (
     <section style={{ position: "relative", background: "var(--deep)", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0 }}>
-        <Placeholder label="hero photo · safari / coast at golden hour" dark style={{ height: "100%", border: 0, borderRadius: 0 }} />
+        <Placeholder src="/images/hero_image.jpg" label="hero photo · safari / coast at golden hour" priority dark style={{ height: "100%", border: 0, borderRadius: 0 }} />
         <div
           style={{
             position: "absolute",
@@ -86,8 +84,8 @@ function Hero() {
               fontWeight: 600,
             }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: 999, background: "var(--gold)" }} /> Trusted by 40,000+
-            Southern-Africa travellers
+            <span style={{ width: 7, height: 7, borderRadius: 999, background: "var(--gold)" }} /> Honest, road-tested
+            Southern-Africa travel guides
           </span>
           <h1
             style={{
@@ -116,15 +114,26 @@ function Hero() {
           </p>
         </div>
 
-        <div style={{ marginTop: 38, maxWidth: 1040 }}>
-          <SearchWidget />
-        </div>
+        {AFFILIATE_LIVE ? (
+          <div style={{ marginTop: 38, maxWidth: 1040 }}>
+            <SearchWidget />
+          </div>
+        ) : (
+          <div style={{ marginTop: 34, display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <Link className="btn btn-primary btn-lg" href={ROUTES.destinations}>
+              Explore destinations <Icon name="arrow" size={18} />
+            </Link>
+            <Link className="btn btn-light btn-lg" href={ROUTES.guides}>
+              Read the travel guides
+            </Link>
+          </div>
+        )}
 
         <div style={{ display: "flex", gap: 44, flexWrap: "wrap", padding: "34px 6px 40px" }}>
-          <Stat big="120+" label="Destinations & guides" />
-          <Stat big="20+" label="Car-hire brands compared" />
+          <Stat big="9" label="Destinations covered" />
+          <Stat big="8" label="In-depth travel guides" />
           <Stat big="R0" label="Booking fees, ever" />
-          <Stat big="4.8★" label="Average reader rating" />
+          <Stat big="100%" label="Independent & honest" />
         </div>
       </div>
     </section>
@@ -158,19 +167,16 @@ export default function HomePage() {
       <section style={{ background: "var(--surface-2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
         <div className="wrap-wide" style={{ padding: "var(--space-8) 24px" }}>
           <SectionHead
-            eyebrow="Car rental deals"
-            title="Drive away from R385/day"
-            sub="We compare 20+ rental brands across South-African airports so you don't have to. Free cancellation on most rates."
-            action="All car deals"
+            eyebrow="Car rental"
+            title="Cars for every kind of trip"
+            sub="From a city runabout to a safari-ready 4x4 — the main vehicle classes and what to know before you book."
+            action="Car hire guide"
             href={ROUTES.cars}
           />
           <div className="car-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
             {CARS.map((c) => (
               <CarCard key={c.model} {...c} />
             ))}
-          </div>
-          <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 10, justifyContent: "center" }}>
-            <AffNote>Prices are illustrative. Final rates shown on our partner&apos;s secure checkout.</AffNote>
           </div>
         </div>
       </section>
@@ -222,7 +228,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Newsletter />
+      {NEWSLETTER_LIVE && <Newsletter />}
     </main>
   );
 }
