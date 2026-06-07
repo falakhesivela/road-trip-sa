@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Icon, type IconName } from "./icons";
 import { Logo } from "./ui";
 import { ROUTES, destinationHref, guideHref } from "@/lib/routes";
-import { TOOLS_LIVE, NEWSLETTER_LIVE } from "@/lib/config";
+import { TOOLS_LIVE, NEWSLETTER_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
 import { FooterSubscribe } from "./newsletter";
 
 // While the free tools aren't built, the "Plan" column points at real content
@@ -62,13 +62,12 @@ export function Footer() {
       <div className="wrap-wide" style={{ padding: "64px 24px 36px" }}>
         <div
           className="footer-grid"
-          style={{ display: "grid", gridTemplateColumns: "1.4fr repeat(4, 1fr)", gap: 32, alignItems: "start" }}
+          style={{ display: "grid", gridTemplateColumns: `1.4fr repeat(${CAR_RENTALS_LIVE ? 4 : 3}, 1fr)`, gap: 32, alignItems: "start" }}
         >
           <div>
             <Logo dark />
             <p style={{ color: "rgba(255,255,255,.6)", fontSize: 14.5, marginTop: 16, maxWidth: 260, lineHeight: 1.6 }}>
-              Honest Southern-Africa travel guides and the best car-rental deals — built by a Joburg traveller, for
-              travellers.
+              Honest, road-tested Southern-Africa travel guides — built by a Joburg traveller, for travellers.
             </p>
             <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
               {(["globe", "users", "heart"] as IconName[]).map((ic) => (
@@ -94,7 +93,7 @@ export function Footer() {
               </div>
             )}
           </div>
-          {COLS.map(([title, links]) => (
+          {COLS.filter(([title]) => CAR_RENTALS_LIVE || title !== "Car Rentals").map(([title, links]) => (
             <div key={title}>
               <div
                 style={{

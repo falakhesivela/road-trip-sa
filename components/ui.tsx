@@ -1,7 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { Icon } from "./icons";
+import { imageUrl } from "@/lib/images";
+import { SmartImage } from "./smart-image";
 
 /* ---------------------------------------------------------- */
 export function Logo({ dark = false }: { dark?: boolean }) {
@@ -58,15 +59,16 @@ export function Placeholder({
   /** next/image `sizes` hint for responsive loading. */
   sizes?: string;
 }) {
+  const resolved = imageUrl(src);
+  // Remote (R2) images load directly from the bucket; local /public images stay optimized.
+  const isRemote = !!resolved && /^https?:\/\//.test(resolved);
   return (
     <div
       className={`ph ${dark ? "on-dark" : ""} ${className}`}
       data-label={label}
       style={{ position: "relative", overflow: "hidden", borderRadius: radius != null ? radius : undefined, ...style }}
     >
-      {src && (
-        <Image src={src} alt={label} fill priority={priority} sizes={sizes ?? "100vw"} style={{ objectFit: "cover" }} />
-      )}
+      {resolved && <SmartImage src={resolved} alt={label} priority={priority} sizes={sizes} unoptimized={isRemote} />}
     </div>
   );
 }

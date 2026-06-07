@@ -128,7 +128,6 @@ export function GuideArticle({ guide, related }: { guide: GuideDoc; related: Rea
           {guide.excerpt}
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 24, paddingBottom: 24, borderBottom: "1px solid var(--line)" }}>
-          <Placeholder label="author" style={{ width: 46, height: 46, borderRadius: 999, flex: "none" }} />
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 700, fontSize: 14.5 }}>By {guide.author}</div>
             <div style={{ fontSize: 13, color: "var(--muted)" }}>
@@ -139,7 +138,7 @@ export function GuideArticle({ guide, related }: { guide: GuideDoc; related: Rea
       </section>
 
       <section className="wrap" style={{ maxWidth: 820, padding: "24px 24px 0" }}>
-        <Placeholder label={guide.heroLabel} src={guide.heroImage} priority style={{ height: 380, borderRadius: 18 }} />
+        <Placeholder label={guide.heroLabel} src={guide.heroImage ?? `guides/${guide.slug}-hero.jpg`} priority style={{ height: 380, borderRadius: 18 }} />
         <div style={{ marginTop: 12 }}>
           <AffNote>This guide contains affiliate links. We may earn a commission at no extra cost to you.</AffNote>
         </div>
@@ -202,7 +201,6 @@ export function GuideArticle({ guide, related }: { guide: GuideDoc; related: Rea
 
             {/* Author box */}
             <div style={{ display: "flex", gap: 16, alignItems: "center", background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 16, padding: 22, marginTop: 36 }}>
-              <Placeholder label="author" style={{ width: 64, height: 64, borderRadius: 999, flex: "none" }} />
               <div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17 }}>{guide.author.split(" · ")[0]}</div>
                 <p style={{ fontSize: 14, color: "var(--muted)", marginTop: 4, lineHeight: 1.6 }}>{guide.authorBio}</p>

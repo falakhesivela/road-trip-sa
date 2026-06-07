@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         {
           heading: "Information we collect",
           body: [
-            "We collect the minimum information needed to run the site. This includes details you choose to give us — for example your name and email address when you subscribe to our newsletter or send us a message via the contact form.",
+            "We collect the minimum information needed to run the site. This includes details you choose to give us — for example your email address when you subscribe to our newsletter, or your details when you email us.",
             "We also collect limited technical information automatically, such as your browser type, device, and anonymised usage statistics, to understand how the site is used and to improve it.",
           ],
         },
@@ -39,6 +39,13 @@ export default function PrivacyPage() {
           heading: "Cookies & analytics",
           body: [
             "We use cookies and similar technologies to keep the site working, to remember your preferences, and to gather aggregate analytics. You can disable cookies in your browser settings, though some features may not work as well.",
+          ],
+        },
+        {
+          heading: "Embedded content & third-party services",
+          body: [
+            "Some destination pages embed interactive maps from Google Maps. When a page with a map loads, Google may set its own cookies and receive your IP address and browser information, in line with Google's privacy policy. We don't control these cookies.",
+            "We also rely on a few trusted third parties to run the site — for example an email provider to deliver our newsletter if you subscribe, and our hosting and analytics providers. Each handles your information under its own privacy terms.",
           ],
         },
         {

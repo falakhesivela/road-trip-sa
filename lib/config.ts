@@ -19,6 +19,11 @@
 
 export const AFFILIATE_LIVE = false;
 
+// The Car Rentals page + its nav/home/footer links. Hidden until there are real
+// car-hire affiliate links — the /car-rentals route redirects home while off.
+// (The car-related guides and the Car-Rental Cost Calculator stay live.)
+export const CAR_RENTALS_LIVE = false;
+
 // Free calculators / planners on the Resources page.
 // The Budget Calculator, Car-Rental Cost Calculator and Packing List Generator
 // are fully working client-side tools, so this is on.

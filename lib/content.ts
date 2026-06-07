@@ -8,7 +8,7 @@ import type { IconName } from "@/components/icons";
 /* ---------- Destinations ---------- */
 
 export type Fact = { icon: IconName; label: string; value: string };
-export type Stay = { name: string; tagline: string; price: string; label: string };
+export type Stay = { name: string; tagline: string; price: string; label: string; image?: string };
 export type RailItem = { icon: IconName; title: string; price: string; cta: string; href: string };
 
 export type DestinationDoc = {
@@ -23,10 +23,15 @@ export type DestinationDoc = {
   /** placeholder labels (stand in for real photography) */
   heroLabel: string;
   cardLabel: string;
-  /** Optional real photos in /public (e.g. "/images/destinations/kruger-hero.jpg").
-      When set, the photo replaces the striped placeholder. See public/images/README.md. */
+  /** Optional R2 image keys (e.g. "destinations/kruger-hero.jpg"), resolved
+      against NEXT_PUBLIC_IMAGE_BASE_URL. When set, the photo replaces the
+      striped placeholder. See public/images/README.md. */
   heroImage?: string;
   cardImage?: string;
+  /** Optional map at the foot of the destination article. Prefer mapEmbed (a
+      Google Maps "Embed a map" iframe src URL); mapImage is a static fallback. */
+  mapEmbed?: string;
+  mapImage?: string;
   rating: number;
   reviews: string;
   /** lead paragraphs */
@@ -42,6 +47,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "kruger",
     name: "Kruger National Park",
+    cardImage:'destinations/kruger-card.jpg',
+    heroImage:'destinations/kruger-hero.jpg',
     region: "Mpumalanga & Limpopo",
     tag: "Safari",
     price: "R1,950",
@@ -68,14 +75,15 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Panorama Route add-on", "Pair Kruger with God's Window and the Blyde River Canyon, an hour from the gates."],
     ],
     stays: [
-      { name: "Skukuza Rest Camp", tagline: "In-park · Self-catering", price: "R1,450/night", label: "lodge · rondavels" },
-      { name: "Lower Sabie", tagline: "In-park · Riverfront", price: "R1,680/night", label: "lodge · river view" },
-      { name: "Private Sabi Sand Lodge", tagline: "Luxury · All-inclusive", price: "R6,900/night", label: "lodge · luxury suite" },
+      { name: "Skukuza Rest Camp", tagline: "In-park · Self-catering", price: "R1,450/night", label: "lodge · rondavels",image:'destinations/kruger-wildlife-safaris-skukuza.jpg'  },
+      { name: "Lower Sabie", tagline: "In-park · Riverfront", price: "R1,680/night", label: "lodge · river view", image:'destinations/lower-sabbie.jpg' },
+      { name: "Private Sabi Sand Lodge", tagline: "Luxury · All-inclusive", price: "R6,900/night", label: "lodge · luxury suite", image:'destinations/private-sabi.jpg' },
     ],
     bestTime: [
       "The dry winter months (May–September) are prime: sparse vegetation and animals gathering at waterholes make wildlife far easier to spot, and there are virtually no mosquitoes.",
       "Summer (November–March) is green, hot and dramatic with newborn animals and migratory birds, but afternoon thunderstorms and thick bush make sightings harder.",
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3645.209448575295!2d31.552165276224084!3d-23.988379877420776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ec34896c535a0a1%3A0x9a504ed31f67787b!2sKruger%20National%20Park!5e0!3m2!1sen!2sza!4v1780822031832!5m2!1sen!2sza',
     rail: [
       { icon: "plane", title: "Flights to Nelspruit (MQP)", price: "from R1,180 return", cta: "Search flights", href: "/" },
       { icon: "car", title: "4x4 or SUV hire", price: "from R880 / day", cta: "Find a car", href: "/car-rentals" },
@@ -84,6 +92,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "cape-town",
     name: "Cape Town & Winelands",
+      cardImage:'destinations/capetown-card.jpg',
+      heroImage:'destinations/capetown-hero.jpg',
     region: "Western Cape",
     tag: "City + Wine",
     price: "R820",
@@ -110,14 +120,15 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Boulders Beach penguins", "Boardwalks at Simon's Town put you metres from an African penguin colony."],
     ],
     stays: [
-      { name: "V&A Waterfront Hotel", tagline: "Central · Harbour views", price: "R2,100/night", label: "hotel · waterfront" },
-      { name: "Camps Bay Guesthouse", tagline: "Beachfront · Boutique", price: "R1,750/night", label: "guesthouse · atlantic" },
-      { name: "Stellenbosch Wine Estate", tagline: "Winelands · Vineyard stay", price: "R2,400/night", label: "estate · vineyards" },
+      { name: "V&A Waterfront Hotel", tagline: "Central · Harbour views", price: "R2,100/night", label: "hotel · waterfront", image:'destinations/water-front-hotel.jpg' },
+      { name: "Camps Bay Guesthouse", tagline: "Beachfront · Boutique", price: "R1,750/night", label: "guesthouse · atlantic",image:'destinations/beach-front-boutique.jpg' },
+      { name: "Stellenbosch Wine Estate", tagline: "Winelands · Vineyard stay", price: "R2,400/night", label: "estate · vineyards", image:'destinations/estate-vineyards.jpg' },
     ],
     bestTime: [
       "Summer (November–March) brings long, warm, dry days perfect for beaches and wine farms, but it's peak season — book months ahead and expect higher rates.",
       "Spring (September–October) is the sweet spot: wildflowers, whales off Hermanus, fewer crowds and gentler prices, with the south-easter wind not yet at full strength.",
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d855048.4174006017!2d19.114251623918644!3d-33.160763629626196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc53c29d78bc15%3A0x7bed25b250ab75fb!2sThe%20Cape%20Winelands!5e0!3m2!1sen!2sza!4v1780823964102!5m2!1sen!2sza',
     rail: [
       { icon: "plane", title: "Flights to Cape Town (CPT)", price: "from R720 one-way", cta: "Search flights", href: "/" },
       { icon: "car", title: "Compact or convertible hire", price: "from R520 / day", cta: "Find a car", href: "/car-rentals" },
@@ -126,6 +137,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "garden-route",
     name: "Garden Route",
+    cardImage:'destinations/garden-route-card.jpg',
+    heroImage:'destinations/garden-route-hero.jpg',
     region: "Western & Eastern Cape",
     tag: "Road trip",
     price: "R1,200",
@@ -146,20 +159,21 @@ export const DESTINATIONS: DestinationDoc[] = [
       { icon: "clock", label: "Ideal stay", value: "5 – 7 nights" },
     ],
     things: [
-      ["Knysna lagoon & the Heads", "Oysters on Thesen Islands, a ferry to Featherbed, and sunset from the Knysna Heads."],
+      ["Knysna lagoon & the Heads", "Oysters on Thesen Islands, a ferry to Featherbed, and sunset from the Knysna Heads.",],
       ["Robberg Nature Reserve", "A three-hour peninsula hike from Plettenberg Bay — the best walk on the route."],
       ["Tsitsikamma suspension bridges", "Storms River mouth, ancient yellowwood forest and the Bloukrans bungee."],
       ["Wilderness lakes & paddling", "Canoe the Touw River into the forest, or walk the Map of Africa viewpoint."],
     ],
     stays: [
-      { name: "Knysna Waterfront Lodge", tagline: "Central · Lagoon views", price: "R1,350/night", label: "lodge · lagoon" },
-      { name: "Plettenberg Bay Beach House", tagline: "Beachfront · Self-catering", price: "R1,900/night", label: "house · white beach" },
-      { name: "Wilderness Forest Cabin", tagline: "Forest · Secluded", price: "R1,150/night", label: "cabin · forest" },
+      { name: "Knysna Waterfront Lodge", tagline: "Central · Lagoon views", price: "R1,350/night", label: "lodge · lagoon", image: 'destinations/knysna-waterfront-lodge.jpg' },
+      { name: "Plettenberg Bay Beach House", tagline: "Beachfront · Self-catering", price: "R1,900/night", label: "house · white beach", image: 'destinations/beach-house.jpg' },
+      { name: "Wilderness Forest Cabin", tagline: "Forest · Secluded", price: "R1,150/night", label: "cabin · forest", image: 'destinations/cabin-forest.jpg' },
     ],
     bestTime: [
       "The route is good year-round, but October–April brings the warmest swimming and the greenest forest. Whale-watching off Plett peaks June–November.",
       "Avoid the mid-December to mid-January festive peak if you can — towns get busy and accommodation prices roughly double.",
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d848027.2539560933!2d21.443861299302196!3d-33.87403167208579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dd422316a2d87f9%3A0x8d714de901824af3!2sGarden%20Route%20District%20Municipality!5e0!3m2!1sen!2sza!4v1780824836481!5m2!1sen!2sza',
     rail: [
       { icon: "plane", title: "Flights to George (GRJ)", price: "from R980 one-way", cta: "Search flights", href: "/" },
       { icon: "car", title: "Compact auto hire", price: "from R520 / day", cta: "Find a car", href: "/car-rentals" },
@@ -168,6 +182,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "panorama-route",
     name: "Panorama Route",
+    cardImage:'destinations/blyde-canyon-card.jpg',
+    heroImage:'destinations/blyde-canyon-hero.jpg',
     region: "Mpumalanga",
     tag: "Scenery",
     price: "R740",
@@ -194,10 +210,11 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Waterfall trail", "Lisbon, Berlin and Mac-Mac falls are all easy roadside stops."],
     ],
     stays: [
-      { name: "Graskop Mountain Lodge", tagline: "Village · Cliff-edge", price: "R1,250/night", label: "lodge · escarpment" },
-      { name: "Sabie Forest Guesthouse", tagline: "Forest · Self-catering", price: "R980/night", label: "guesthouse · pines" },
-      { name: "Hazyview Safari Lodge", tagline: "Kruger gateway · Bushveld", price: "R1,600/night", label: "lodge · bushveld" },
+      { name: "Graskop Mountain Lodge", tagline: "Village · Cliff-edge", price: "R1,250/night", label: "lodge · escarpment",image:'destinations/graskop-mountain-lodge.jpg' },
+      { name: "Sabie Forest Guesthouse", tagline: "Forest · Self-catering", price: "R980/night", label: "guesthouse · pines", image:'destinations/sabie-forest-guest-house.jpg' },
+      { name: "Hazyview Safari Lodge", tagline: "Kruger gateway · Bushveld", price: "R1,600/night", label: "lodge · bushveld" ,image:'destinations/hazy-view-safari-lodge.jpg' },
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3590.316307738396!2d29.25197717627966!3d-25.859064950008246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1eeaf2b7a4203c8b%3A0x27c4a48a47f4422b!2sPanorama%20Rd%2C%20Highveld%20Park%2C%20eMalahleni%2C%201034!5e0!3m2!1sen!2sza!4v1780830041217!5m2!1sen!2sza',
     bestTime: [
       "Autumn and winter (April–September) bring the clearest skies and the crispest canyon views, with mornings the most reliable before afternoon mist gathers.",
       "Summer is lush and green but the escarpment clouds over often — start early to beat the haze.",
@@ -211,6 +228,8 @@ export const DESTINATIONS: DestinationDoc[] = [
     slug: "durban-kzn",
     name: "Durban & KZN",
     region: "KwaZulu-Natal",
+    cardImage:'destinations/golden-mile-card.jpg',
+    heroImage:'destinations/golden-mile-hero.jpg',
     tag: "Beaches",
     price: "R690",
     blurb:
@@ -236,10 +255,11 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Hluhluwe–iMfolozi safari", "Zululand's flagship reserve — the best place in Africa to see rhino."],
     ],
     stays: [
-      { name: "Umhlanga Rocks Hotel", tagline: "Beachfront · Lighthouse views", price: "R1,650/night", label: "hotel · umhlanga" },
-      { name: "Durban Beachfront Apartment", tagline: "Central · Self-catering", price: "R1,100/night", label: "apartment · seafront" },
-      { name: "Zululand Game Lodge", tagline: "Safari · Full board", price: "R3,200/night", label: "lodge · zululand" },
+      { name: "Umhlanga Rocks Hotel", tagline: "Beachfront · Lighthouse views", price: "R1,650/night", label: "hotel · umhlanga", image:'destinations/umhlanga-beach-hotel.jpg' },
+      { name: "Durban Beachfront Apartment", tagline: "Central · Self-catering", price: "R1,100/night", label: "apartment · seafront" , image:'destinations/sea-front-apartment.jpg' },
+      { name: "Zululand Game Lodge", tagline: "Safari · Full board", price: "R3,200/night", label: "lodge · zululand", image:'destinations/zulu-land-lodge.jpg' },
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110715.53344173165!2d30.908551475612036!3d-29.868298995742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef7aa0001bc61b7%3A0xcca75546c4aa6e81!2sDurban!5e0!3m2!1sen!2sza!4v1780828233104!5m2!1sen!2sza',
     bestTime: [
       "Winter (April–October) is Durban's secret season: warm, dry, sunny days and sea temperatures that rarely drop below 19°C, with none of the summer humidity.",
       "Summer is hot, humid and wet, but the sea is at its warmest — just pack for afternoon downpours.",
@@ -252,6 +272,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "joburg-getaways",
     name: "Joburg Getaways",
+    cardImage:'destinations/magaliesburg-card.jpg',
+    heroImage:'destinations/magaliesburg-hero.jpg',
     region: "Gauteng",
     tag: "Weekend",
     price: "R450",
@@ -278,10 +300,11 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Cradle of Humankind", "Sterkfontein Caves and the Maropeng visitor centre for a rainy-day option."],
     ],
     stays: [
-      { name: "Pilanesberg Bush Lodge", tagline: "Safari · Half board", price: "R2,400/night", label: "lodge · bushveld" },
-      { name: "Hartbeespoort Dam Cabin", tagline: "Lakeside · Self-catering", price: "R1,200/night", label: "cabin · dam" },
-      { name: "Magaliesberg Country Hotel", tagline: "Mountain · Spa", price: "R1,650/night", label: "hotel · mountain" },
+      { name: "Pilanesberg Bush Lodge", tagline: "Safari · Half board", price: "R2,400/night", label: "lodge · bushveld", image:'destinations/bakubung-bush-lodge.jpg' },
+      { name: "Hartbeespoort Dam Cabin", tagline: "Lakeside · Self-catering", price: "R1,200/night", label: "cabin · dam", image:'destinations/hartbeespoort-dam-cabin.jpg' },
+      { name: "Magaliesberg Country Hotel", tagline: "Mountain · Spa", price: "R1,650/night", label: "hotel · mountain", image:'destinations/magaliesberg-country-hotel.jpg' },
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114584.91033155734!2d27.957622496615635!3d-26.171343973446014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950c68f0406a51%3A0x238ac9d9b1d34041!2sJohannesburg!5e0!3m2!1sen!2sza!4v1780831539412!5m2!1sen!2sza',
     bestTime: [
       "Highveld weather is mild year-round, but the dry winter (May–August) is best for game viewing and brings crisp, sunny, mosquito-free days.",
       "Summer afternoons bring spectacular thunderstorms — plan activities for the morning and you'll rarely be rained out.",
@@ -294,6 +317,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "mozambique",
     name: "Mozambique",
+    cardImage:'destinations/mozambique-card.jpg',
+    heroImage:'destinations/mozambique-hero.jpg',
     region: "Tofo & Bazaruto",
     tag: "Islands",
     price: "R3,100",
@@ -320,10 +345,11 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Island lodge escape", "Trade the mainland for a barefoot lodge on Benguerra or Bazaruto Island."],
     ],
     stays: [
-      { name: "Tofo Beach Lodge", tagline: "Beachfront · Dive base", price: "R1,400/night", label: "lodge · tofo beach" },
-      { name: "Vilanculos Guesthouse", tagline: "Gateway · Self-catering", price: "R1,100/night", label: "guesthouse · palms" },
-      { name: "Bazaruto Island Resort", tagline: "Island · All-inclusive", price: "R8,500/night", label: "resort · island" },
+      { name: "Tofo Beach Lodge", tagline: "Beachfront · Dive base", price: "R1,400/night", label: "lodge · tofo beach", image:'destinations/tofo-beach-lodge.jpg' },
+      { name: "Vilanculos Guesthouse", tagline: "Gateway · Self-catering", price: "R1,100/night", label: "guesthouse · palms", image:'destinations/vilancous-guest-house.jpg' },
+      { name: "Bazaruto Island Resort", tagline: "Island · All-inclusive", price: "R8,500/night", label: "resort · island", image:'destinations/bazaruto-island.jpg' },
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d114854.46766824146!2d32.52828280121015!3d-25.895725469903144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sThings%20to%20do!5e0!3m2!1sen!2sza!4v1780829084323!5m2!1sen!2sza',
     bestTime: [
       "The dry season (April–November) brings calm, clear water ideal for diving, with whale sharks and humpbacks most common from June to October.",
       "The wet season (December–March) is hot and humid with a real cyclone risk — most travellers avoid the peak of it.",
@@ -337,6 +363,8 @@ export const DESTINATIONS: DestinationDoc[] = [
     slug: "botswana",
     name: "Botswana",
     region: "Okavango & Chobe",
+    cardImage:'destinations/botswana-card.jpg',
+    heroImage:'destinations/botswana-hero.jpg',
     tag: "Wilderness",
     price: "R4,200",
     blurb:
@@ -362,10 +390,11 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Makgadikgadi salt pans", "Otherworldly pans, meerkats and one of Africa's great night skies."],
     ],
     stays: [
-      { name: "Chobe Riverfront Lodge", tagline: "Gateway · Half board", price: "R3,400/night", label: "lodge · chobe river" },
-      { name: "Okavango Tented Camp", tagline: "Delta · Fly-in · Full board", price: "R9,800/night", label: "camp · delta" },
-      { name: "Maun Safari Guesthouse", tagline: "Town base · B&B", price: "R1,300/night", label: "guesthouse · maun" },
+      { name: "Chobe Riverfront Lodge", tagline: "Gateway · Half board", price: "R3,400/night", label: "lodge · chobe river",image:'destinations/chobe-riverfront-lodge.jpg' },
+      { name: "Okavango Tented Camp", tagline: "Delta · Fly-in · Full board", price: "R9,800/night", label: "camp · delta", image:'destinations/okavango-tented-camp.jpg' },
+      { name: "Maun Safari Guesthouse", tagline: "Town base · B&B", price: "R1,300/night", label: "guesthouse · maun", image:'destinations/maun-safari-guesthouse.jpg' },
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7562915.204892343!2d19.38978874682736!3d-22.24653975865807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ea44321d1452211%3A0xf1647c2a8715af7b!2sBotswana!5e0!3m2!1sen!2sza!4v1780832416479!5m2!1sen!2sza',
     bestTime: [
       "The dry winter (May–October) is peak: paradoxically the Delta floods at this time, drawing huge concentrations of game, and thin vegetation makes sightings easy.",
       "The green season (November–April) is cheaper and excellent for birding and newborn animals, but some camps close and roads can flood.",
@@ -378,6 +407,8 @@ export const DESTINATIONS: DestinationDoc[] = [
   {
     slug: "victoria-falls",
     name: "Victoria Falls",
+    cardImage:'destinations/victoria-falls-card.jpg',
+    heroImage:'destinations/victoria-falls-hero.jpg',
     region: "Zimbabwe",
     tag: "Adventure",
     price: "R2,400",
@@ -404,14 +435,15 @@ export const DESTINATIONS: DestinationDoc[] = [
       ["Bridge bungee & zip-line", "Leap from the historic bridge between Zimbabwe and Zambia."],
     ],
     stays: [
-      { name: "Victoria Falls Hotel", tagline: "Historic · Falls-view terrace", price: "R4,200/night", label: "hotel · colonial" },
-      { name: "Riverside Safari Lodge", tagline: "Zambezi · Half board", price: "R2,800/night", label: "lodge · zambezi" },
-      { name: "Town Guesthouse", tagline: "Central · B&B", price: "R1,200/night", label: "guesthouse · town" },
+      { name: "Victoria Falls Hotel", tagline: "Historic · Falls-view terrace", price: "R4,200/night", label: "hotel · colonial" , image:'destinations/victoria-falls-hotel.jpg' },
+      { name: "Riverside Safari Lodge", tagline: "Zambezi · Half board", price: "R2,800/night", label: "lodge · zambezi", image:'destinations/riverside-safari-lodge.jpg' },
+      { name: "Town Guesthouse", tagline: "Central · B&B", price: "R1,200/night", label: "guesthouse · town", image:'destinations/town-guest-house.jpg' },
     ],
     bestTime: [
       "February–May is peak flow, when the falls are at their most thunderous (and the spray heaviest). The light, the rainbows and the sheer volume are unforgettable.",
       "August–December is low water: you see more of the rock face and the swimming and rafting are at their best, including the famous Devil's Pool.",
     ],
+    mapEmbed:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30367.617624173625!2d25.804996374642343!3d-17.93438313462724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x194fe53f0d97964b%3A0xb5064359416ab317!2sVictoria%20Falls%2C%20Zimbabwe!5e0!3m2!1sen!2sza!4v1780826831511!5m2!1sen!2sza',
     rail: [
       { icon: "plane", title: "Flights to Victoria Falls (VFA)", price: "from R2,600 return", cta: "Search flights", href: "/" },
       { icon: "car", title: "Car & transfer hire", price: "from R700 / day", cta: "Find a car", href: "/car-rentals" },
@@ -432,7 +464,7 @@ export function destinationCards() {
     tag: d.tag,
     price: d.price,
     label: d.cardLabel,
-    image: d.cardImage,
+    image: d.cardImage ?? `destinations/${d.slug}-card.jpg`,
   }));
 }
 
@@ -458,7 +490,7 @@ export type GuideDoc = {
   authorBio: string;
   cardLabel: string;
   heroLabel: string;
-  /** Optional real photos in /public (e.g. "/images/guides/kruger-safari-guide-hero.jpg"). */
+  /** Optional R2 image keys (e.g. "guides/kruger-safari-guide-hero.jpg"). */
   heroImage?: string;
   cardImage?: string;
   intro: string;
@@ -470,11 +502,13 @@ export const GUIDES: GuideDoc[] = [
     slug: "kruger-safari-guide",
     cat: "Safari",
     title: "The Complete Kruger Safari Guide 2026",
+    cardImage:'guides/elephant-in-savana.jpg',
+    heroImage:'guides/kruger-guides-hero.jpg',
     excerpt:
       "Everything a first-timer needs to plan a self-drive Kruger safari: when to go, what to book, where to stay and what it really costs.",
     read: "14 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · safari jeep",
@@ -538,12 +572,14 @@ export const GUIDES: GuideDoc[] = [
   {
     slug: "garden-route-7-day-itinerary",
     cat: "Road Trips",
+    cardImage:'destinations/garden-route-hero.jpg',
+    heroImage:'destinations/garden-route-card.jpg',
     title: "The Garden Route 7-Day Road-Trip Itinerary (2026)",
     excerpt:
       "Cape Town to Tsitsikamma in a week — the exact route, where to sleep, what to book, and what it really costs for two people.",
     read: "11 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · coastal road",
@@ -618,13 +654,15 @@ export const GUIDES: GuideDoc[] = [
   },
   {
     slug: "budget-weekend-getaways-joburg",
+    cardImage:'guides/joburg-getaway-guide-card.jpg',
+    heroImage:'guides/joburg-getaway-guide-hero.jpg',
     cat: "Budget",
     title: "10 Best Budget Weekend Getaways from Joburg",
     excerpt:
       "Bush, mountains and water within two hours of the city — ten weekend escapes that won't wreck your budget, with what to book first.",
     read: "8 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · weekend escape",
@@ -676,11 +714,13 @@ export const GUIDES: GuideDoc[] = [
     slug: "travel-during-load-shedding",
     cat: "Practical",
     title: "How to Travel South Africa During Load-Shedding",
+    cardImage:'guides/loadshedding-guide-card.jpg',
+    heroImage:'guides/loadshedding-guide-hero.jpg',
     excerpt:
       "Load-shedding is part of South African life — here's how to plan around it so it barely touches your trip.",
     read: "6 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · city at night",
@@ -724,12 +764,14 @@ export const GUIDES: GuideDoc[] = [
   {
     slug: "best-time-to-visit-south-africa",
     cat: "Planning",
+    cardImage:'guides/best-time-south-africa-guide-card.jpg',
+    heroImage:'guides/best-time-south-africa-guide-hero.jpg',
     title: "Best Time to Visit South Africa: A Season-by-Season Guide",
     excerpt:
       "When to go for safari, beaches, whales and wildflowers — and when to travel for the best weather and the lowest prices.",
     read: "9 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · seasons collage",
@@ -782,12 +824,14 @@ export const GUIDES: GuideDoc[] = [
   {
     slug: "is-south-africa-safe-for-tourists",
     cat: "Practical",
+    cardImage:'guides/sa-safety-guide-card.jpg',
+    heroImage:'guides/sa-safety-guide-hero.jpg',
     title: "Is South Africa Safe for Tourists? An Honest Guide",
     excerpt:
       "A straight-talking look at safety in South Africa — the real risks, the sensible precautions, and how millions of visitors travel here happily every year.",
     read: "8 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · cape town street",
@@ -839,13 +883,15 @@ export const GUIDES: GuideDoc[] = [
   },
   {
     slug: "renting-a-car-in-south-africa",
+    cardImage: "guides/rent-car-guide-card.jpg",
+    heroImage: "guides/rent-car-guide-hero.jpg",
     cat: "Car Hire",
     title: "Renting a Car in South Africa: The Complete Guide",
     excerpt:
       "Everything you need to hire a car in South Africa with confidence — what you need, which class to choose, insurance, fuel, tolls and the fees to watch for.",
     read: "10 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · rental car keys",
@@ -904,13 +950,15 @@ export const GUIDES: GuideDoc[] = [
   },
   {
     slug: "driving-in-south-africa",
+    cardImage: "guides/sa-roads-guide-card.jpg",
+    heroImage: "guides/sa-roads-guide-hero.jpg",
     cat: "Practical",
     title: "Driving in South Africa: Road Rules, Tolls & What to Expect",
     excerpt:
       "Drive on the left, watch for the quirks — a practical rundown of South African road rules, tolls, fuel stops and the local habits that surprise first-timers.",
     read: "7 min read",
     updated: "Updated June 2026",
-    author: "Thabo M. · roadtripsa founder",
+    author: "Falakhe Sivela · roadtripsa founder",
     authorBio:
       "Joburg-based software developer turned full-time traveller. I've driven the Garden Route six times and Kruger more than I can count — roadtripsa is where I share what actually worked.",
     cardLabel: "guide · open highway",
@@ -973,6 +1021,6 @@ export function guideCards() {
     title: g.title,
     read: g.read,
     label: g.cardLabel,
-    image: g.cardImage,
+    image: g.cardImage ?? `guides/${g.slug}-card.jpg`,
   }));
 }

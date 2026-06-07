@@ -6,7 +6,7 @@ import { DestinationCard, CarCard, GuideCard, type Car } from "@/components/card
 import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
 import { destinationCards, guideCards } from "@/lib/content";
-import { AFFILIATE_LIVE, NEWSLETTER_LIVE } from "@/lib/config";
+import { AFFILIATE_LIVE, NEWSLETTER_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
 
 // Featured home destinations — curated subset of the full list, Kruger as the wide hero card.
 const HOME_DEST_SLUGS = ["kruger", "cape-town", "garden-route", "victoria-falls", "durban-kzn", "mozambique"];
@@ -47,7 +47,7 @@ function Hero() {
   return (
     <section style={{ position: "relative", background: "var(--deep)", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0 }}>
-        <Placeholder src="/images/hero_image.jpg" label="hero photo · safari / coast at golden hour" priority dark style={{ height: "100%", border: 0, borderRadius: 0 }} />
+        <Placeholder src="tobias-reich-1GgWbP74phY-unsplash.jpg" label="hero photo · safari / coast at golden hour" priority dark style={{ height: "100%", border: 0, borderRadius: 0 }} />
         <div
           style={{
             position: "absolute",
@@ -109,8 +109,8 @@ function Hero() {
               lineHeight: 1.55,
             }}
           >
-            Real, road-tested guides to Kruger, the Garden Route, Cape Town and beyond — plus the cheapest flights and
-            car-hire deals, compared in one search.
+            Real, road-tested guides to Kruger, the Garden Route, Cape Town and beyond — when to go, what to do, and
+            how to plan the whole trip yourself.
           </p>
         </div>
 
@@ -164,22 +164,24 @@ export default function HomePage() {
       </section>
 
       {/* Car deals */}
-      <section style={{ background: "var(--surface-2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
-        <div className="wrap-wide" style={{ padding: "var(--space-8) 24px" }}>
-          <SectionHead
-            eyebrow="Car rental"
-            title="Cars for every kind of trip"
-            sub="From a city runabout to a safari-ready 4x4 — the main vehicle classes and what to know before you book."
-            action="Car hire guide"
-            href={ROUTES.cars}
-          />
-          <div className="car-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
-            {CARS.map((c) => (
-              <CarCard key={c.model} {...c} />
-            ))}
+      {CAR_RENTALS_LIVE && (
+        <section style={{ background: "var(--surface-2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
+          <div className="wrap-wide" style={{ padding: "var(--space-8) 24px" }}>
+            <SectionHead
+              eyebrow="Car rental"
+              title="Cars for every kind of trip"
+              sub="From a city runabout to a safari-ready 4x4 — the main vehicle classes and what to know before you book."
+              action="Car hire guide"
+              href={ROUTES.cars}
+            />
+            <div className="car-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
+              {CARS.map((c) => (
+                <CarCard key={c.model} {...c} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Why */}
       <section className="wrap-wide" style={{ padding: "var(--space-8) 24px" }}>

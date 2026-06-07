@@ -11,7 +11,7 @@ export default function AboutPage() {
       />
       <section className="wrap-wide" style={{ padding: "var(--space-7) 24px var(--space-8)" }}>
         <div className="about-layout" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-          <Placeholder label="founder · on the road in the Karoo" style={{ height: 420, borderRadius: 18 }} />
+          <Placeholder src="guides/sa-roads-guide-hero.jpg" label="founder · on the road in the Karoo" style={{ height: 420, borderRadius: 18 }} />
           <div>
             <h2 style={{ fontSize: 30, marginBottom: 16 }}>The story</h2>
             <p style={{ fontSize: 16.5, lineHeight: 1.7, color: "var(--muted)", marginBottom: 16 }}>

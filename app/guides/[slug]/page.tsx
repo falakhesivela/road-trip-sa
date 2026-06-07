@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GuideArticle } from "@/components/guide-article";
-import { GUIDES, getGuide } from "@/lib/content";
+import { GUIDES, getGuide, guideCards } from "@/lib/content";
 import { AFFILIATE_LIVE } from "@/lib/config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -32,9 +32,9 @@ export default async function GuidePage({ params }: Props) {
     ? found
     : { ...found, sections: found.sections.map((s) => ({ ...s, cta: undefined })) };
 
-  const related = GUIDES.filter((g) => g.slug !== guide.slug)
-    .slice(0, 3)
-    .map((g) => ({ slug: g.slug, cat: g.cat, title: g.title, read: g.read, label: g.cardLabel }));
+  const related = guideCards()
+    .filter((g) => g.slug !== guide.slug)
+    .slice(0, 3);
 
   return <GuideArticle guide={guide} related={related} />;
 }

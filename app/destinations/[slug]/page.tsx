@@ -5,7 +5,7 @@ import { Icon, type IconName } from "@/components/icons";
 import { Placeholder, AffNote } from "@/components/ui";
 import { ROUTES } from "@/lib/routes";
 import { DESTINATIONS, getDestination, type RailItem } from "@/lib/content";
-import { AFFILIATE_LIVE, TOOLS_LIVE } from "@/lib/config";
+import { AFFILIATE_LIVE, TOOLS_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -126,9 +126,9 @@ function BookingRail({ name, rail }: { name: string; rail: RailItem[] }) {
             {(
               [
                 ["pin", "Browse all destinations", ROUTES.destinations],
-                ["car", "Read the car-hire guide", ROUTES.cars],
+                ...(CAR_RENTALS_LIVE ? [["car", "Read the car-hire guide", ROUTES.cars]] : []),
                 ["clock", "All travel guides", ROUTES.guides],
-              ] as const
+              ] as [IconName, string, string][]
             ).map(([ic, label, href]) => (
               <Link
                 key={label}
@@ -182,7 +182,7 @@ export default async function DestinationPage({ params }: Props) {
     <main>
       {/* Hero */}
       <section style={{ background: "var(--deep)", position: "relative", overflow: "hidden" }}>
-        <Placeholder label={dest.heroLabel} src={dest.heroImage} priority dark style={{ position: "absolute", inset: 0, height: "100%", border: 0, borderRadius: 0 }} />
+        <Placeholder label={dest.heroLabel} src={dest.heroImage ?? `destinations/${dest.slug}-hero.jpg`} priority dark style={{ position: "absolute", inset: 0, height: "100%", border: 0, borderRadius: 0 }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(15,36,34,.35), rgba(15,36,34,.85))" }} />
         <div className="wrap-wide" style={{ position: "relative", padding: "60px 24px 44px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,.7)", fontSize: 13.5, fontWeight: 600, marginBottom: 22, flexWrap: "wrap" }}>
@@ -296,9 +296,9 @@ export default async function DestinationPage({ params }: Props) {
               From self-catering and guesthouses to all-inclusive lodges.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
-              {dest.stays.map((s) => (
+              {dest.stays.map((s, i) => (
                 <div key={s.name} className="card" style={{ display: "flex", overflow: "hidden", alignItems: "stretch" }}>
-                  <Placeholder label={s.label} style={{ width: 150, flex: "none", border: 0, borderRadius: 0 }} />
+                  <Placeholder label={s.label} src={s.image ?? `destinations/${dest.slug}-stay-${i + 1}.jpg`} style={{ width: 150, flex: "none", border: 0, borderRadius: 0 }} />
                   <div style={{ padding: "16px 18px", display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
                     <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17 }}>{s.name}</div>
                     <div style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 2 }}>{s.tagline}</div>
@@ -313,7 +313,18 @@ export default async function DestinationPage({ params }: Props) {
                 {para}
               </p>
             ))}
-            <Placeholder label={`map · ${dest.name} & highlights`} style={{ height: 280, borderRadius: 16, marginTop: 8 }} />
+            {dest.mapEmbed ? (
+              <iframe
+                src={dest.mapEmbed}
+                title={`Map of ${dest.name}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                style={{ width: "100%", height: 280, border: 0, borderRadius: 16, marginTop: 8 }}
+              />
+            ) : (
+              <Placeholder label={`map · ${dest.name} & highlights`} src={dest.mapImage} style={{ height: 280, borderRadius: 16, marginTop: 8 }} />
+            )}
           </div>
 
           {/* Sticky rail */}

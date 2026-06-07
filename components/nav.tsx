@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Icon, type IconName } from "./icons";
 import { Logo } from "./ui";
 import { ROUTES, destinationHref } from "@/lib/routes";
-import { AFFILIATE_LIVE, TOOLS_LIVE } from "@/lib/config";
+import { AFFILIATE_LIVE, TOOLS_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
 
 const DEST_LINKS: [string, string, string][] = [
   ["Kruger National Park", "Big Five safari country", destinationHref("kruger")],
@@ -179,31 +179,33 @@ export function Nav() {
               </Link>
             </div>
 
-            <div onMouseEnter={() => hover("cars")} onMouseLeave={leave} style={{ position: "relative" }}>
-              <Link
-                href={ROUTES.cars}
-                style={{
-                  background: "none",
-                  border: 0,
-                  padding: "8px 2px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  fontFamily: "var(--font-body)",
-                  fontWeight: 600,
-                  fontSize: 15,
-                  color: isActive(ROUTES.cars) ? "var(--accent)" : "var(--ink)",
-                }}
-              >
-                Car Rentals{" "}
-                <Icon
-                  name="chevron"
-                  size={15}
-                  stroke={2.4}
-                  style={{ transform: open === "cars" ? "rotate(180deg)" : "none", transition: "transform .2s" }}
-                />
-              </Link>
-            </div>
+            {CAR_RENTALS_LIVE && (
+              <div onMouseEnter={() => hover("cars")} onMouseLeave={leave} style={{ position: "relative" }}>
+                <Link
+                  href={ROUTES.cars}
+                  style={{
+                    background: "none",
+                    border: 0,
+                    padding: "8px 2px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 600,
+                    fontSize: 15,
+                    color: isActive(ROUTES.cars) ? "var(--accent)" : "var(--ink)",
+                  }}
+                >
+                  Car Rentals{" "}
+                  <Icon
+                    name="chevron"
+                    size={15}
+                    stroke={2.4}
+                    style={{ transform: open === "cars" ? "rotate(180deg)" : "none", transition: "transform .2s" }}
+                  />
+                </Link>
+              </div>
+            )}
 
             <NavLink href={ROUTES.guides} label="Travel Guides" active={isActive(ROUTES.guides)} />
             {TOOLS_LIVE && <NavLink href={ROUTES.resources} label="Resources" active={isActive(ROUTES.resources)} />}
@@ -221,8 +223,8 @@ export function Nav() {
                 <Icon name="search" size={20} />
               </Link>
             )}
-            <Link className="btn btn-primary btn-sm nav-desktop" href={ROUTES.cars}>
-              Find a car
+            <Link className="btn btn-primary btn-sm nav-desktop" href={CAR_RENTALS_LIVE ? ROUTES.cars : ROUTES.destinations}>
+              {CAR_RENTALS_LIVE ? "Find a car" : "Explore"}
             </Link>
             <button
               className="nav-mobile-btn"
@@ -307,7 +309,7 @@ export function Nav() {
               [
                 ["Home", ROUTES.home],
                 ["Destinations", ROUTES.destinations],
-                ["Car Rentals", ROUTES.cars],
+                ...(CAR_RENTALS_LIVE ? [["Car Rentals", ROUTES.cars]] : []),
                 ["Travel Guides", ROUTES.guides],
                 ...(TOOLS_LIVE ? [["Resources", ROUTES.resources]] : []),
                 ["About", ROUTES.about],
@@ -338,10 +340,10 @@ export function Nav() {
               style={{ marginTop: 14 }}
               onClick={() => {
                 setMobile(false);
-                router.push(ROUTES.cars);
+                router.push(CAR_RENTALS_LIVE ? ROUTES.cars : ROUTES.destinations);
               }}
             >
-              Find a car
+              {CAR_RENTALS_LIVE ? "Find a car" : "Explore destinations"}
             </button>
           </div>
         </div>

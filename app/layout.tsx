@@ -17,9 +17,9 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "roadtripsa — Southern Africa Travel & Car Rentals",
+  title: "roadtripsa — Honest Southern Africa Travel Guides",
   description:
-    "Honest Southern-Africa travel guides and the best car-rental deals — Kruger, the Garden Route, Cape Town and beyond. Compare flights and car hire in one search.",
+    "Honest, road-tested Southern-Africa travel guides — Kruger, the Garden Route, Cape Town and beyond. When to go, what to do, what it costs, and how to plan it yourself.",
 };
 
 export default function RootLayout({

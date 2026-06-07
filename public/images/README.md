@@ -1,55 +1,44 @@
 # Images
 
-Drop real photos in here and they replace the striped placeholders automatically
-(via the `<Placeholder src=... />` component, which uses `next/image` for
-resizing, WebP/AVIF and lazy loading).
+Images are served from a **Cloudflare R2** bucket and rendered through
+`next/image` (resizing, WebP/AVIF, lazy loading). The `<Placeholder src=... />`
+component shows a real photo when a source resolves, or the striped placeholder
+when it doesn't.
 
-## Use properly-licensed photos only
-- Your own photos (best — they match the "road-tested" brand).
-- Free stock that allows commercial use with no attribution: **Unsplash**, **Pexels**.
-- Do **not** use images grabbed from Google (usually copyrighted) or AI-generated
-  shots of real places.
+## Setup (one-time)
+1. Make the R2 bucket publicly readable (r2.dev URL) or attach a custom domain.
+2. Set `NEXT_PUBLIC_IMAGE_BASE_URL` in `.env.local` to that base URL, e.g.
+   `https://pub-xxxx.r2.dev` or `https://images.roadtripsa.co.za` (no trailing slash).
+   `next.config.ts` reads this and whitelists the host for `next/image`.
 
-## Recommended sizes / format
-- Hero images: ~1600×900, JPG or WebP, compressed (<300 KB ideally).
-- Card / thumbnail images: ~800×600.
-- next/image optimises and serves modern formats at request time, so don't
-  over-optimise the source — just keep it reasonably sized.
-
-## How to wire a photo to content
-
-### Destinations & guides (data-driven)
-Add the file here, then set the path in `lib/content.ts` on that entry:
+## Adding a photo
+1. Upload to R2 under a sensible key, e.g. `destinations/kruger-hero.jpg`.
+2. Reference it as a **key** (not a full URL) in `lib/content.ts`:
 
 ```ts
 {
   slug: "kruger",
-  // ...
-  heroImage: "/images/destinations/kruger-hero.jpg",   // big page hero
-  cardImage: "/images/destinations/kruger-card.jpg",   // grid card thumbnail
+  heroImage: "destinations/kruger-hero.jpg",   // big page hero
+  cardImage: "destinations/kruger-card.jpg",   // grid thumbnail
 }
 ```
 
-Guides use the same `heroImage` / `cardImage` fields in their `GUIDES` entries.
+`imageUrl()` (lib/images.ts) prepends the base URL, so you only store the key.
+Guides use the same `heroImage` / `cardImage` fields.
 
-Suggested layout:
+Suggested keys:
 ```
-public/images/
-  destinations/<slug>-hero.jpg, <slug>-card.jpg
-  guides/<slug>-hero.jpg, <slug>-card.jpg
-  cars/<class>.jpg            (economy, compact, suv, 4x4)
-  home-hero.jpg
-  car-rentals-hero.jpg
-  about-founder.jpg
+destinations/<slug>-hero.jpg, destinations/<slug>-card.jpg
+guides/<slug>-hero.jpg, guides/<slug>-card.jpg
+home-hero.jpg
 ```
 
-### One-off images (home hero, car-rentals hero, about, etc.)
-These render via `<Placeholder ... />` in their page files — add a `src`:
+## One-off images (home hero, etc.)
+Pass a key as `src` on the `<Placeholder>` in the page file, e.g.
+`src="home-hero.jpg"`. Until you do, the striped placeholder shows.
 
-```tsx
-// app/page.tsx — home hero
-<Placeholder label="hero photo · ..." src="/images/home-hero.jpg" priority dark ... />
-```
-
-Until a `src` is set, the striped placeholder shows — so the site never breaks
-while you're filling images in gradually.
+## Notes
+- Full URLs (`https://…`) and root-relative local paths (`/images/foo.jpg` in
+  this folder) are passed through unchanged — handy for testing before R2 is set up.
+- Use licensed images only (your own, or Unsplash/Pexels). Keep source files
+  reasonably sized; next/image handles the rest.
