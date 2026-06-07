@@ -32,17 +32,6 @@ const WHY: [IconName, string, string][] = [
   ["globe", "Built for the region", "Load-shedding, e-tolls, border crossings, 4x4 tracks — local know-how baked into every page."],
 ];
 
-function Stat({ big, label }: { big: string; label: string }) {
-  return (
-    <div>
-      <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, letterSpacing: "-0.03em", color: "#fff" }}>
-        {big}
-      </div>
-      <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", marginTop: 2 }}>{label}</div>
-    </div>
-  );
-}
-
 function Hero() {
   return (
     <section style={{ position: "relative", background: "var(--deep)", overflow: "hidden" }}>
@@ -128,13 +117,7 @@ function Hero() {
             </Link>
           </div>
         )}
-
-        <div style={{ display: "flex", gap: 44, flexWrap: "wrap", padding: "34px 6px 40px" }}>
-          <Stat big="9" label="Destinations covered" />
-          <Stat big="8" label="In-depth travel guides" />
-          <Stat big="R0" label="Booking fees, ever" />
-          <Stat big="100%" label="Independent & honest" />
-        </div>
+        <div style={{ paddingBottom: 40 }} />
       </div>
     </section>
   );

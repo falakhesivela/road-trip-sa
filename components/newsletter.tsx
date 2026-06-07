@@ -132,7 +132,7 @@ export function Newsletter() {
               No spam. Unsubscribe anytime. POPIA-compliant.
             </p>
           </div>
-          <Placeholder label="kit mockup · checklist + map" dark style={{ height: 240, borderRadius: 16 }} />
+          <Placeholder src="pexels-lara-jameson-8828439.jpg" label="trip-planning kit" dark style={{ height: 240, borderRadius: 16 }} />
         </div>
       </div>
     </section>
