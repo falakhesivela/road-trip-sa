@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/icons";
 import { PageHero } from "@/components/ui";
 import { ROUTES } from "@/lib/routes";
 
-export const metadata: Metadata = {
-  title: "Free Travel Tools — Budget & Packing Calculators | roadtripsa",
-  description:
-    "Free, no-login travel-planning tools for Southern Africa: a trip budget calculator, a car-rental cost calculator and a tailored packing list generator.",
-};
+export const metadata = pageMetadata({
+  title: "Free Travel Tools — Budget & Packing Calculators",
+  description: "Free, no-login travel-planning tools for Southern Africa: a trip budget calculator, a car-rental cost calculator and a tailored packing list generator.",
+  path: "/resources",
+});
 
 const TOOLS: [IconName, string, string, string][] = [
   ["tag", "Travel Budget Calculator", "Build a full trip budget in rands — accommodation, car hire, food and flights.", ROUTES.budgetCalculator],

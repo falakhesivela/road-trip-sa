@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/ui";
 import { BudgetCalculator } from "@/components/tools/budget-calculator";
 
-export const metadata: Metadata = {
-  title: "Travel Budget Calculator — roadtripsa",
-  description:
-    "Estimate the full cost of a Southern-Africa trip in rands — accommodation, car hire, food, activities and flights — with this free budget calculator.",
-};
+export const metadata = pageMetadata({
+  title: "Travel Budget Calculator",
+  description: "Estimate the full cost of a Southern-Africa trip in rands — accommodation, car hire, food, activities and flights — with this free budget calculator.",
+  path: "/resources/budget-calculator",
+});
 
 export default function BudgetCalculatorPage() {
   return (

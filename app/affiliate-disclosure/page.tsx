@@ -1,13 +1,18 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { pageMetadata } from "@/lib/seo";
 import { LegalPage } from "@/components/legal";
+import { AFFILIATE_LIVE } from "@/lib/config";
+import { ROUTES } from "@/lib/routes";
 
-export const metadata: Metadata = {
-  title: "Affiliate Disclosure | roadtripsa",
-  description:
-    "How roadtripsa uses affiliate links, how we earn, and our commitment to honest, independent recommendations.",
-};
+export const metadata = pageMetadata({
+  title: "Affiliate Disclosure",
+  description: "How roadtripsa uses affiliate links, how we earn, and our commitment to honest, independent recommendations.",
+  path: "/affiliate-disclosure",
+});
 
 export default function AffiliateDisclosurePage() {
+  // Hidden until there are real affiliate links to disclose — returns with AFFILIATE_LIVE.
+  if (!AFFILIATE_LIVE) redirect(ROUTES.home);
   return (
     <LegalPage
       eyebrow="Affiliate disclosure"

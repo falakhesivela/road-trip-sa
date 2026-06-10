@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/ui";
 import { GuideCard } from "@/components/cards";
 import { guideCards } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Travel Guides — Southern Africa Itineraries & Tips | roadtripsa",
-  description:
-    "Practical, road-tested travel guides for Southern Africa — safari planning, road-trip itineraries, budget getaways and on-the-ground tips.",
-};
+export const metadata = pageMetadata({
+  title: "Travel Guides — Southern Africa Itineraries & Tips",
+  description: "Practical, road-tested travel guides for Southern Africa — safari planning, road-trip itineraries, budget getaways and on-the-ground tips.",
+  path: "/guides",
+});
 
 export default function GuidesPage() {
   return (

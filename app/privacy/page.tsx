@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { LegalPage } from "@/components/legal";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy (POPIA) | roadtripsa",
-  description:
-    "How roadtripsa collects, uses and protects your personal information, in line with South Africa's Protection of Personal Information Act (POPIA).",
-};
+export const metadata = pageMetadata({
+  title: "Privacy Policy (POPIA)",
+  description: "How roadtripsa collects, uses and protects your personal information, in line with South Africa's Protection of Personal Information Act (POPIA).",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           heading: "How we use your information",
           body: [
             "We use your information to respond to your enquiries, to send you our newsletter if you've subscribed, and to maintain and improve the website. We do not sell your personal information to third parties.",
-            "When you follow an affiliate link to one of our partners, your interaction from that point on is governed by that partner's own privacy policy.",
+            "If a page includes an affiliate link and you click through to a third-party site, your interaction from that point on is governed by that site's own privacy policy.",
           ],
         },
         {

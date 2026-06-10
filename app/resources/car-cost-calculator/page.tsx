@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/ui";
 import { CarCostCalculator } from "@/components/tools/car-cost-calculator";
 
-export const metadata: Metadata = {
-  title: "Car-Rental Cost Calculator — roadtripsa",
-  description:
-    "Work out the true cost of hiring a car in South Africa — rental, fuel, insurance, one-way and cross-border fees — with this free calculator.",
-};
+export const metadata = pageMetadata({
+  title: "Car-Rental Cost Calculator",
+  description: "Work out the true cost of hiring a car in South Africa — rental, fuel, insurance, one-way and cross-border fees — with this free calculator.",
+  path: "/resources/car-cost-calculator",
+});
 
 export default function CarCostCalculatorPage() {
   return (

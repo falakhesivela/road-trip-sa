@@ -7,6 +7,8 @@ import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
 import { destinationCards, guideCards } from "@/lib/content";
 import { AFFILIATE_LIVE, NEWSLETTER_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
+import { JsonLd } from "@/components/json-ld";
+import { websiteLd, organizationLd } from "@/lib/seo";
 
 // Featured home destinations — curated subset of the full list, Kruger as the wide hero card.
 const HOME_DEST_SLUGS = ["kruger", "cape-town", "garden-route", "victoria-falls", "durban-kzn", "mozambique"];
@@ -27,7 +29,7 @@ const CARS: Car[] = [
 
 const WHY: [IconName, string, string][] = [
   ["shield", "Honest, road-tested advice", "Every guide is written from real trips across Southern Africa — no copy-paste, no fluff, no fake reviews."],
-  ["tag", "Genuinely the best price", "We surface the cheapest verified rate from trusted partners and never add booking fees on top."],
+  ["tag", "Real costs, no surprises", "Honest budgets and what things actually cost — no inflated 'from' prices, no hidden fees, no fake urgency."],
   ["bolt", "Plan in minutes", "Free tools — budget calculators, packing lists and itineraries — turn 'someday' into a booked trip."],
   ["globe", "Built for the region", "Load-shedding, e-tolls, border crossings, 4x4 tracks — local know-how baked into every page."],
 ];
@@ -126,6 +128,7 @@ function Hero() {
 export default function HomePage() {
   return (
     <main>
+      <JsonLd data={[websiteLd(), organizationLd()]} />
       <Hero />
 
       {/* Destinations */}

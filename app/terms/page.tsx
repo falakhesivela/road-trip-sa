@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { LegalPage } from "@/components/legal";
 
-export const metadata: Metadata = {
-  title: "Terms of Use | roadtripsa",
+export const metadata = pageMetadata({
+  title: "Terms of Use",
   description: "The terms and conditions that govern your use of the roadtripsa website.",
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
@@ -34,9 +35,9 @@ export default function TermsPage() {
           ],
         },
         {
-          heading: "Affiliate links & third parties",
+          heading: "Third-party links",
           body: [
-            "Some links on this site are affiliate links, as described in our Affiliate Disclosure. When you click through to a partner, you leave roadtripsa and become subject to that third party's terms and conditions. We are not responsible for the products, services or content of third-party websites.",
+            "Some links on this site may lead to third-party websites (and some may be affiliate links). When you click through to a third party, you leave roadtripsa and become subject to that site's own terms and conditions. We are not responsible for the products, services or content of third-party websites.",
           ],
         },
         {

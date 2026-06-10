@@ -1,5 +1,14 @@
 import { Icon } from "@/components/icons";
 import { PageHero, Placeholder } from "@/components/ui";
+import { pageMetadata } from "@/lib/seo";
+import { AFFILIATE_LIVE } from "@/lib/config";
+
+export const metadata = pageMetadata({
+  title: "About",
+  description:
+    "roadtripsa is an honest, independent Southern-Africa travel resource built by a Johannesburg developer who'd rather be on the road.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
@@ -23,17 +32,19 @@ export default function AboutPage() {
               started writing it all down. roadtripsa is that knowledge, organised and kept up to date — no fluff, no fake
               reviews, no AI-spun filler.
             </p>
-            <div style={{ background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 14, padding: 20, marginTop: 8 }}>
-              <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
-                <Icon name="tag" size={18} style={{ color: "var(--accent)" }} />
-                <span style={{ fontWeight: 700, fontSize: 15 }}>Affiliate disclosure</span>
+            {AFFILIATE_LIVE && (
+              <div style={{ background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 14, padding: 20, marginTop: 8 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                  <Icon name="tag" size={18} style={{ color: "var(--accent)" }} />
+                  <span style={{ fontWeight: 700, fontSize: 15 }}>Affiliate disclosure</span>
+                </div>
+                <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
+                  Some links on roadtripsa are affiliate links — if you book through them I may earn a small commission, at
+                  no extra cost to you. It keeps the guides free and independent. I only ever recommend partners I&apos;d use
+                  myself.
+                </p>
               </div>
-              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
-                Some links on roadtripsa are affiliate links — if you book through them I may earn a small commission, at
-                no extra cost to you. It keeps the guides free and independent. I only ever recommend partners I&apos;d use
-                myself.
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </section>

@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Icon, type IconName } from "@/components/icons";
 import { PageHero } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Contact — roadtripsa",
+export const metadata = pageMetadata({
+  title: "Contact",
   description: "Get in touch with roadtripsa — trip questions, tips, and partnership enquiries.",
-};
+  path: "/contact",
+});
 
 const EMAIL = "hello@roadtripsa.co.za";
 

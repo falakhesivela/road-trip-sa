@@ -6,6 +6,9 @@ import { Placeholder, AffNote } from "@/components/ui";
 import { ROUTES } from "@/lib/routes";
 import { DESTINATIONS, getDestination, type RailItem } from "@/lib/content";
 import { AFFILIATE_LIVE, TOOLS_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
+import { imageUrl } from "@/lib/images";
+import { pageMetadata, absoluteUrl, breadcrumbLd } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,12 +20,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dest = getDestination(slug);
   if (!dest) return {};
-  const title = `${dest.name} Travel Guide — roadtripsa`;
-  return {
-    title,
+  return pageMetadata({
+    title: `${dest.name} Travel Guide`,
     description: dest.blurb,
-    openGraph: { title, description: dest.blurb, type: "article" },
-  };
+    path: `/destinations/${dest.slug}`,
+    image: imageUrl(dest.heroImage ?? `destinations/${dest.slug}-hero.jpg`),
+    type: "article",
+  });
 }
 
 function FactPill({ icon, label, value }: { icon: IconName; label: string; value: string }) {
@@ -178,8 +182,25 @@ export default async function DestinationPage({ params }: Props) {
   const dest = getDestination(slug);
   if (!dest) notFound();
 
+  const url = absoluteUrl(`/destinations/${dest.slug}`);
+  const placeLd = {
+    "@context": "https://schema.org",
+    "@type": "TouristDestination",
+    name: dest.name,
+    description: dest.blurb,
+    url,
+    image: imageUrl(dest.heroImage ?? `destinations/${dest.slug}-hero.jpg`),
+    address: { "@type": "PostalAddress", addressRegion: dest.region },
+  };
+  const crumbsLd = breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Destinations", path: "/destinations" },
+    { name: dest.name, path: `/destinations/${dest.slug}` },
+  ]);
+
   return (
     <main>
+      <JsonLd data={[placeLd, crumbsLd]} />
       {/* Hero */}
       <section style={{ background: "var(--deep)", position: "relative", overflow: "hidden" }}>
         <Placeholder label={dest.heroLabel} src={dest.heroImage ?? `destinations/${dest.slug}-hero.jpg`} priority dark style={{ position: "absolute", inset: 0, height: "100%", border: 0, borderRadius: 0 }} />

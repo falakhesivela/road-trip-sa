@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/ui";
 import { DestinationCard } from "@/components/cards";
 import { destinationCards } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Destinations — Southern Africa Travel Guides | roadtripsa",
-  description:
-    "Big-Five safaris, coastal road trips, island escapes and weekend getaways across Southern Africa — all road-tested, all with honest costs.",
-};
+export const metadata = pageMetadata({
+  title: "Destinations — Southern Africa Travel Guides",
+  description: "Big-Five safaris, coastal road trips, island escapes and weekend getaways across Southern Africa — all road-tested, all with honest costs.",
+  path: "/destinations",
+});
 
 export default function DestinationsPage() {
   return (

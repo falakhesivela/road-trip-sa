@@ -139,9 +139,11 @@ export function GuideArticle({ guide, related }: { guide: GuideDoc; related: Rea
 
       <section className="wrap" style={{ maxWidth: 820, padding: "24px 24px 0" }}>
         <Placeholder label={guide.heroLabel} src={guide.heroImage ?? `guides/${guide.slug}-hero.jpg`} priority style={{ height: 380, borderRadius: 18 }} />
-        <div style={{ marginTop: 12 }}>
-          <AffNote>This guide contains affiliate links. We may earn a commission at no extra cost to you.</AffNote>
-        </div>
+        {AFFILIATE_LIVE && (
+          <div style={{ marginTop: 12 }}>
+            <AffNote>This guide contains affiliate links. We may earn a commission at no extra cost to you.</AffNote>
+          </div>
+        )}
       </section>
 
       {/* Body + TOC */}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Icon, type IconName } from "./icons";
 import { Logo } from "./ui";
 import { ROUTES, destinationHref, guideHref } from "@/lib/routes";
-import { TOOLS_LIVE, NEWSLETTER_LIVE, CAR_RENTALS_LIVE } from "@/lib/config";
+import { TOOLS_LIVE, NEWSLETTER_LIVE, CAR_RENTALS_LIVE, AFFILIATE_LIVE } from "@/lib/config";
 import { FooterSubscribe } from "./newsletter";
 
 // While the free tools aren't built, the "Plan" column points at real content
@@ -49,7 +49,7 @@ const COLS: [string, [string, string][]][] = [
     [
       ["About", ROUTES.about],
       ["Contact", ROUTES.contact],
-      ["Affiliate Disclosure", ROUTES.affiliate],
+      ...(AFFILIATE_LIVE ? ([["Affiliate Disclosure", ROUTES.affiliate]] as [string, string][]) : []),
       ["Privacy (POPIA)", ROUTES.privacy],
       ["Terms of Use", ROUTES.terms],
     ],
@@ -137,19 +137,21 @@ export function Footer() {
           <span style={{ fontSize: 13, color: "rgba(255,255,255,.5)" }}>
             © 2026 roadtripsa. Made in Johannesburg, South Africa.
           </span>
-          <span
-            style={{
-              fontSize: 12.5,
-              color: "rgba(255,255,255,.5)",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 7,
-              maxWidth: 520,
-            }}
-          >
-            <Icon name="tag" size={13} /> Some links are affiliate links. We may earn a commission at no extra cost to
-            you.
-          </span>
+          {AFFILIATE_LIVE && (
+            <span
+              style={{
+                fontSize: 12.5,
+                color: "rgba(255,255,255,.5)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                maxWidth: 520,
+              }}
+            >
+              <Icon name="tag" size={13} /> Some links are affiliate links. We may earn a commission at no extra cost to
+              you.
+            </span>
+          )}
         </div>
       </div>
     </footer>

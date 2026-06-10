@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/ui";
 import { PackingList } from "@/components/tools/packing-list";
 
-export const metadata: Metadata = {
-  title: "Packing List Generator — roadtripsa",
-  description:
-    "Generate a tailored Southern-Africa packing checklist by trip type and season — safari, beach, city or road trip. Tick off and print as you pack.",
-};
+export const metadata = pageMetadata({
+  title: "Packing List Generator",
+  description: "Generate a tailored Southern-Africa packing checklist by trip type and season — safari, beach, city or road trip. Tick off and print as you pack.",
+  path: "/resources/packing-list",
+});
 
 export default function PackingListPage() {
   return (
