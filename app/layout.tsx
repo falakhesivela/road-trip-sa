@@ -53,6 +53,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sora.variable} ${manrope.variable}`}>
+      <head>
+        <script
+          {...({
+            suppressHydrationWarning: true,
+            nowprocket: "",
+            "data-noptimize": "1",
+            "data-cfasync": "false",
+            "data-wpfc-render": "false",
+            "seraph-accel-crit": "1",
+            "data-no-defer": "1",
+            dangerouslySetInnerHTML: {
+              __html: `(function () {
+    var script = document.createElement("script");
+    script.async = 1;
+    script.src = 'https://emrld.ltd/NTM4Mzgz.js?t=538383';
+    document.head.appendChild(script);
+})();`,
+            },
+          } as React.ScriptHTMLAttributes<HTMLScriptElement>)}
+        />
+      </head>
       <body>
         <Nav />
         {children}
